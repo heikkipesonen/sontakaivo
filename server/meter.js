@@ -24,7 +24,7 @@ const meter = {
     timeStamp: Date.now(),
     value: [],
     get distance () {
-        return meter.value.map((char) => String.fromCharCode(char))
+        return meter.value.map((char) => String.fromCharCode(char)).join('').replace('R','')
     }
 };
 
