@@ -1,0 +1,8 @@
+# files that have been changed since last commit
+changed_files="$(git diff-tree -r --name-only --no-commit-id ORIG_HEAD HEAD)"
+
+check_run() {
+	echo "$changed_files" | grep "$1"
+}
+
+check_run server/package.json

@@ -9,20 +9,20 @@ CLIENT_DIR="$DEPLOY_DIR"/client
 git --work-tree="$DEPLOY_DIR" --git-dir="$GIT_DIR" checkout -f
 
 # files that have been changed since last commit
-changed_files="$(git diff-tree -r --name-only --no-commit-id ORIG_HEAD HEAD)"
+#changed_files="$(git diff-tree -r --name-only --no-commit-id ORIG_HEAD HEAD)"
 
-check_run() {
-    echo "$changed_files" | grep --quiet "$1" && eval "$2"
-}
+#check_run() {
+#	echo "$changed_files" | grep --quiet "$1" && eval "$2"
+#}
 
 echo "Running server npm install"
 cd "$SERVER_DIR"
-check_run server/package.json "npm install"
+#check_run server/package.json "npm prune && npm install"
 echo "doned"
 
 echo "running client npm install"
 cd "$CLIENT_DIR"
-check_run client/package.json "npm install"
+#check_run client/package.json "npm prune && npm install"
 echo "doned"
 
 echo "running client build..."
