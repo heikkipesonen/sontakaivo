@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon ./server/index.js",
-    "predeploy": "node client/build/build.js",
+    "predeploy": "cd client && node build/build.js && cd ..",
     "deploy": "git add -A && git commit -m \"autocommit\" && git push origin",
     "test": "echo \"Error: no test specified\" && exit 1"    
   },
