@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const SerialPort = require('serialport');
 const options = {
     baudRate: 9600,
@@ -17,14 +18,35 @@ port.on('open', function (evt) {
 
         meter.value = d;        
         meter.timeStamp = Date.now();        
+
+        _.debounce(() => meter.fire('data'), 500);
     });
 });
 
+const listeners = {};
+const fire = function (event) {
+    if (listeners[event]) {
+        listeners[event].forEach((callback) => {
+            callback(meter);
+        });
+    }    
+}
+
 const meter = {    
+    listeners: {},
+
     timeStamp: Date.now(),
     value: [],
+    
     get distance () {
         return parseInt(meter.value.map((char) => String.fromCharCode(char)).join('').replace('R', '').replace('\r', ''))
+    },
+
+    on (event, callback) {
+        if (!listeners[event]) {
+            listeners[event] = [];
+        }
+        listeners[event].push(callback);
     }
 };
 
