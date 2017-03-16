@@ -1,5 +1,5 @@
 <template>
-
+<h2>kissa</h2>
 </template>
 <script>
   export default {
