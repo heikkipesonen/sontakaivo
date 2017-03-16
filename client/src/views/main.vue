@@ -1,6 +1,6 @@
 <template>
 <div>
-  <button :click="reload">
+  <button c-on:click="reload()">
     reload
   </button>
 </div>
