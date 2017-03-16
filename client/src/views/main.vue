@@ -1,17 +1,23 @@
 <template>
-<div>
+<view-container>
   <button v-on:click="reload()">
     reload
   </button>
-</div>
+</view-container>
 </template>
 <script>
-  export default {
-    methods: {
-      reload () {
-        window.location.reload()
-      }
+import viewContainer from '../components/view'
+
+export default {
+  components: {
+    viewContainer
+  },
+
+  methods: {
+    reload () {
+      window.location.reload()
     }
   }
+}
 </script>
 <style lang="scss"></style>
