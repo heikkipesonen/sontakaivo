@@ -7,10 +7,7 @@ router.get('/', (req, res) => {
 });
 
 router.get('/meter', (req, res) => {
-    res.json({
-        value: meter.value,
-        timeStamp: meter.timeStamp
-    });
+    res.json(meter);
 });
 
 module.exports = router;

@@ -15,15 +15,17 @@ port.on('open', function (evt) {
             d.push( data[i] );
         }
 
-        meter.value = d;
+        meter.value = d;        
         meter.timeStamp = Date.now();        
     });
 });
 
-const meter = {
-    port,
+const meter = {    
     timeStamp: Date.now(),
-    value: []
+    value: [],
+    get distance () {
+        return meter.value.map((char) => String.fromCharCode(char))
+    }
 };
 
 module.exports = meter;
