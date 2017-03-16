@@ -20,15 +20,15 @@ cd "$SERVER_DIR"
 #check_run server/package.json "npm prune && npm install"
 echo "doned"
 
-echo "running client npm install"
-cd "$CLIENT_DIR"
+#echo "running client npm install"
+#cd "$CLIENT_DIR"
 #check_run client/package.json "npm prune && npm install"
-echo "doned"
+#echo "doned"
 
-echo "running client build..."
-cd "$CLIENT_DIR"
-npm run build
-echo "doned.."
+#echo "running client build..."
+#cd "$CLIENT_DIR"
+#npm run build
+#echo "doned.."
 
 touch "$SERVER_DIR"/index.js
 
