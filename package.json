@@ -1,0 +1,23 @@
+{
+  "name": "shitwell",
+  "author": "heikkipesonen <heikki.pesonen@sysart.fi>",
+  "version": "1.0.0",
+  "description": "paska caivo 1",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon ./server/index.js",
+    "deploy": "git add -A && git commit -m \"autocommit\" && git push origin",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "node client/build/build.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "ssh://pi@192.168.1.200/home/pi/shitwell/raspo.git"
+  },
+  "keywords": [
+    "pasca",
+    "caivo"
+  ],
+  "author": "",
+  "license": "MIT"
+}
