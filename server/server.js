@@ -7,12 +7,11 @@ const meter = require('./meter');
 
 const fs = require('fs');
 
-server.use(express.static(path.join(__dirname, '../client')));
+server.use(express.static(path.join(__dirname, '../client/dist')));
 server.use(bodyParser.urlencoded({ extended: true }));
 server.use(bodyParser.json());
 
 server.get('/', (req, res) => {
-    console.log('kissakoiraasdfsdsddf');
     const html = fs.readFileSync('index.html');
     html = html.replace('<!-- {{liveScript}} -->', '<script type="text/javascript" src="http://livejs.com/live.js"></script>');
     res.send(html);    
