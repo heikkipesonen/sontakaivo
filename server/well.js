@@ -16,7 +16,7 @@ const well = {
     start = parser.date(start);
     end = parser.date(end);
 
-    return wellStatus.findAll({
+    return wellStatus.findAndCountAll({
       offset,
       limit,
       attributes: {
@@ -35,7 +35,7 @@ const well = {
         endAt: end.valueOf(),
         offset,
         limit,
-        rows
+        ...rows
       }
     });
   }
