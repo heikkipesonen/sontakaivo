@@ -78,7 +78,7 @@ const well = {
       queryDays.push(new Date(iterator.valueOf()));
       iterator.setDate(iterator.getDate() + 1);
     }
-    console.log(db.Utils.QueryChainer)
+    console.log(db.Utils)
     const chain = new db.Utils.QueryChainer;
     queryDays.forEach((day) => {
       let startAt = day;
