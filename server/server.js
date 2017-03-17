@@ -10,7 +10,7 @@ const db = require('./db');
 const wellStatus = require('./models/wellstatus');
 
 db.sync({
-    force: true
+    // force: true
 });
 
 server.use(express.static(path.join(__dirname, '../client/dist')));
