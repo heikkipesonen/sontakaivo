@@ -90,15 +90,11 @@ const fire = function (event) {
 const meter = {
     listeners: {},
 
-    read (count) {
-        return readValue(count).then((response) => {
-            return response;
-        })
-    },
+    read: readValue,
 
     readAverage (count = 50) {
         return new Promise((resolve, reject) => {
-            this.readValue(50).then((response) => {
+            readValue(50).then((response) => {
                 const average = response.reduce((sum, reading) => sum + reading.value) / response.length;
                 resolve({
                     startTime: response[0].timeStamp,

@@ -11,7 +11,7 @@ router.get('/meter', (req, res) => {
     meter.readAverage().then((response) => {        
         res.status(200)
             .json(response);
-    }, () => res.send(500))
+    }, () => res.status(500))
 });
 
 module.exports = router;
