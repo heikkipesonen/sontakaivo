@@ -25,10 +25,9 @@ const dataHandler = {
             for (let i = 0; i < buffer.length; i++) {
                 data.push(String.fromCharCode(buffer[i]));
             }
-            console.log(data);
+            
             if (data[0] === 'R' && data[data.length-1] === '\r') {
-                let value = parseInt( data.join('').replace('R', '').replace('\r', '') );
-                
+                let value = parseInt( data.join('').replace('R', '').replace('\r', '') );                
                 this.listener({
                     timeStamp: Date.now(),
                     value
@@ -61,17 +60,29 @@ const dataHandler = {
     }
 }
 
-const readValue = (values = 10) => {
+const open = () => {
     return new Promise((resolve, reject) => {
         rpio.write(12, rpio.HIGH);
-        // wait for sensor to initialize
-        setTimeout(() => {
-            dataHandler.listen(values).then((values) => {
-                rpio.write(12, rpio.LOW);
-                resolve(values);
-            }, reject);
-        }, 1500);
+        meter.active = true;
+        setTimeout(() => resolve, 3000);
     });
+}
+
+const close = () => {
+    return new Promise((resolve, reject) => {
+        rpio.write(12, rpio.LOW);
+        meter.active = false;
+        setTimeout(() => resolve, 1);
+    });
+}
+
+const readValues = (values = 10) => {
+    return open().then(() => {
+        return dataHandler.listen(values).then((values) => {
+            close();
+            return values;
+        });
+    })
 }
 
 port.on('open', function (evt) {
@@ -88,13 +99,16 @@ const fire = function (event) {
 }
 
 const meter = {
+    active: false,
+
     listeners: {},
 
-    read: readValue,
+    read: readValues,
 
+    // return single average value from multiple measurements
     readAverage (count = 50) {
         return new Promise((resolve, reject) => {
-            readValue(50).then((response) => {
+            readValues(50).then((response) => {
                 console.log(response);
                 const average = response.reduce((sum, reading) => sum + reading.value, 0) / response.length;
                 resolve({
