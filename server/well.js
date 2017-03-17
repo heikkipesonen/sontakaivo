@@ -79,20 +79,30 @@ const well = {
       iterator.setDate(iterator.getDate() + 1);
     }
 
-    console.log(queryDays);
+    const chain = new sequelize.Utils.QueryChainer;
+    queryDays.forEach((day) => {
+      let startAt = day;
+      let endAt = parser.endOf(day);
 
-    return this._respond(startAt, endAt, 0, 0, 
-      wellStatus.findAndCountAll({
-        attributes: [
-          [sequelize.fn('AVG', sequelize.col('value')), 'value']
-        ],
-        where: {
-          measuredAt: {
-            $gte: startAt,
-            $lte: endAt
-          }        
-        }
-      }));      
+      chain.add(
+        wellStatus.findAndCountAll({
+          attributes: [
+            [sequelize.fn('AVG', sequelize.col('value')), 'value']
+          ],
+          where: {
+            measuredAt: {
+              $gte: startAt,
+              $lte: endAt
+            }        
+          }
+        })  
+      )
+    });
+
+    return chain.run().then((response) => {
+      console.log(response);
+      return response;
+    })    
   }
 }
 
