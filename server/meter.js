@@ -19,7 +19,7 @@ const dataHandler = {
 
     reading: false,
 
-    data (event) {
+    data (data) {
         if (this.listener) {
             let value = data.toString();
             this.listener( {
