@@ -99,7 +99,7 @@ const meter = {
                 resolve({
                     startTime: response[0].timeStamp,
                     endTime: response[response.length-1].timeStamp,
-                    value: average
+                    value: Math.ceil(average)
                 });
             });
         });
