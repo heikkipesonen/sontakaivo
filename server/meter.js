@@ -61,15 +61,15 @@ const dataHandler = {
 }
 
 const open = () => {
-    if (meter.active) {
-        return meter.active;
+    if (!meter.active) {
+        meter.active = new Promise((resolve, reject) => {
+            rpio.write(12, rpio.HIGH);
+            meter.active = true;
+            setTimeout(resolve, 3000);
+        });
     }
-
-    meter.active = new Promise((resolve, reject) => {
-        rpio.write(12, rpio.HIGH);
-        meter.active = true;
-        setTimeout(resolve, 3000);
-    });
+    
+    return meter.active;
 }
 
 const close = () => {
