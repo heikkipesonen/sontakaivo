@@ -76,9 +76,6 @@ const well = {
             $lte: endAt
           }
         }
-      }).then((data) => {
-        data.rows[0].measuredAt = startAt.valueOf();
-        return data;
       }));
   },
 
