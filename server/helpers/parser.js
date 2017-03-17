@@ -21,7 +21,7 @@ const parser = {
     return moment(this.date(date)).endOf(type).toDate();
   },
 
-  format (date, format = 'dd.mm.yyyy') {
+  format (date, format = 'YYYY-MM-DD') {
     return moment(date).format(format);
   }
 }
