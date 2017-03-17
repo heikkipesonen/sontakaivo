@@ -77,7 +77,7 @@ const well = {
           }
         }
       }).then((data) => {
-        data.rows[0].measuredAt = day.valueOf();
+        data.rows[0].measuredAt = startAt.valueOf();
         return data;
       }));
   },
