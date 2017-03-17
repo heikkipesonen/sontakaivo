@@ -48,8 +48,8 @@ const dataHandler = {
                 result.push(data);          
                 if (result.length >= entries || result.length >= self.maxEntries) {
                     self.listener = null;
-                    self.reading = null;
-                    reject(result);
+                    self.reading = null;                    
+                    resolve(result);
                 }
             }
         });
@@ -62,10 +62,10 @@ const dataHandler = {
 const readValue = (values = 10) => {
     return new Promise((resolve, reject) => {
         rpio.write(12, rpio.HIGH);
-        return dataHandler.listen(values).then((values) => {
+        dataHandler.listen(values).then((values) => {
             rpio.write(12, rpio.LOW);
-            return values;
-        }, () => {});
+            resolve(values);
+        }, reject);
     });
 }
 
