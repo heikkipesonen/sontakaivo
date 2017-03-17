@@ -12,7 +12,7 @@ meter.on('data', (data) => {
 const well = {
   timeSpan (start, end, offset = 0, limit = 100) {
     limit = limit > 100 ? 100 : limit;
-    
+    console.log(start, end, offset, limit);
     return wellStatus.findAll({
       offset,
       limit,
