@@ -19,8 +19,8 @@ const well = {
       },
       where: {
         measuredAt: {
-          $gte: new Date(Date.parse(start)),
-          $lte: new Date(Date.parse(end))
+          $gte: start,
+          $lte: end
         }
       },
       order: 'measuredAt DESC'

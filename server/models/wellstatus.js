@@ -15,8 +15,11 @@ const wellStatus = db.define('wellstatus', {
     type: 'TIMESTAMP',
     defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
     allowNull: false,
+    set (value) {
+      this.setDataValue('measuredAt', new Date(Date.parse(value)));
+    },
     get () {
-      return Date.parse(this.getDataValue('measuredAt'))
+      return Date.parse(this.getDataValue('measuredAt'));
     }
   }
 }, {
