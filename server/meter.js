@@ -86,7 +86,7 @@ const fire = function (event) {
 const meter = {
     listeners: {},
 
-    read: readValue,
+    read = (count) => readValue(count),
 
     on (event, callback) {
         if (!listeners[event]) {
