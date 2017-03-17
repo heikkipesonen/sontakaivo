@@ -28,6 +28,8 @@ const well = {
       order: 'measuredAt DESC'
     }).then((rows) => {
       return {
+        startAt: start,
+        endAt: end,
         offset,
         limit,
         rows
