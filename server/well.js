@@ -57,8 +57,8 @@ const well = {
     return this._respond(startAt, endAt, 0, 0, 
       wellStatus.findAndCountAll({
         attributes: [
-          [sequelize.fn('AVG', sequelize.col('value')), 'value'],       
-          [sequelize.fn('AVG', sequelize.col('measuredAt')), 'measuredAt']
+          [sequelize.fn('AVG', sequelize.col('value')), 'value'],
+          {exclude: 'measuredAt'}
         ],
         where: {
           measuredAt: {
@@ -72,7 +72,7 @@ const well = {
   month (date = new Date()) {
     const startAt = parser.startOf(date, 'month');
     const endAt = parser.endOf(date, 'month');
-    
+
   }
 }
 
