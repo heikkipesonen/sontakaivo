@@ -7,8 +7,8 @@ const parser = {
   },
 
   number (value, max = null) {
-    let value = parseInt(value);
-    return max !== null && value > max ? max : value;
+    let number = parseInt(value);
+    return max !== null && number > max ? max : number;
   },
 
   startOfDay (date) {
