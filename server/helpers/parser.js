@@ -25,7 +25,7 @@ const parser = {
     date.setHours(23);
     date.setMinutes(59);
     date.setSeconds(59);
-    date.setMilliSeconds(999);
+    date.setMilliseconds(999);
     return date;
   }
 }
