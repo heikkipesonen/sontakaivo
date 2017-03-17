@@ -7,7 +7,9 @@ router.get('/', (req, res) => {
 });
 
 router.get('/meter', (req, res) => {
+    console.log('reading values');
     meter.read().then((response) => {
+        console.log('values read', response);
         res.json(200, response);
     }, () => {
         res.send(500);
