@@ -5,9 +5,9 @@ const wellStatus = require('./models/wellstatus');
 meter.start();
 meter.on('data', (data) => {
   wellStatus.create({    
-    startTime: data.startTime,
-    endTime: data.endTime,
-    value: data.value
+    startTime: meter.data.startTime,
+    endTime: meter.data.endTime,
+    value: meter.data.value
   });
 
   console.log(meter.data);
