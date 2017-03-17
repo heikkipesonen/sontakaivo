@@ -19,8 +19,13 @@ const dataHandler = {
 
     reading: false,
 
+    /**
+     * called when serialport receives data
+     * data is then parsed as numeric values and listener is called with
+     * @param {buffer} buffer 
+     * @returns {void}
+     */
     data (buffer) {
-        console.log(buffer)
         if (this.listener) {            
             let data = [];
             for (let i = 0; i < buffer.length; i++) {
@@ -37,7 +42,12 @@ const dataHandler = {
         }
     },
 
-    listen (entries) {
+    /**
+     * listen until desired number of events has been received
+     * @param {number} count 
+     * @returns {Promise}
+     */
+    listen (count) {
         const self = dataHandler;
 
         if (self.reading) {
@@ -48,7 +58,7 @@ const dataHandler = {
             const result = [];
             self.listener = function (data) {
                 result.push(data);          
-                if (result.length >= entries || result.length >= self.maxEntries) {
+                if (result.length >= count || result.length >= self.maxEntries) {
                     self.listener = null;
                     self.reading = null;                    
                     resolve(result);
@@ -61,6 +71,10 @@ const dataHandler = {
     }
 }
 
+/**
+ * intialize ultrasonic sensor, wait for sensor to init
+ * @returns {Promise}
+ */
 const open = () => {
     if (!meter.active) {
         meter.active = new Promise((resolve, reject) => {            
@@ -73,6 +87,10 @@ const open = () => {
     return meter.active;
 }
 
+/**
+ * power off the sensor
+ * @returns {Promise}
+ */
 const close = () => {
     return new Promise((resolve, reject) => {
         rpio.write(12, rpio.LOW);
@@ -81,6 +99,10 @@ const close = () => {
     });
 }
 
+/**
+ * read values from sensor
+ * @param {number} values 
+ */
 const readValues = (values = 10) => {
     return dataHandler.listen(values);
 }
@@ -99,15 +121,21 @@ const fire = function (event) {
 }
 
 const meter = {
+    // power on for sensor
     open,
 
+    // power off
     close,
 
+    // sensor status
     active: false,
 
     listeners: {},
 
+    // timer id
     _interval: null,
+    
+    // last received data
     data: null,
 
     start () {
@@ -130,12 +158,19 @@ const meter = {
         });        
     },
 
-    // return single average value from multiple measurements
+    /**
+     * read multiple values from sensor and resolve with single
+     * average value
+     * @param {number} count 
+     * @returns {Promise}
+     */
     readAverage (count = 50) {
         return new Promise((resolve, reject) => {            
             open().then(() => {
                 readValues(count).then((response) => {
-                    response.splice(Math.floor(response.length/2) - 1, Math.ceil(response.length/2));
+                    // first few values are inaccurate
+                    // so half of the results are discarded
+                    response.splice(Math.floor(response.length/2) - 1, Math.ceil(response.length/2));                    
                     const average = response.reduce((sum, reading) => sum + reading.value, 0) / response.length;
                     let endTime = response[response.length-1].timeStamp;
                     let startTime = response[0].timeStamp;
