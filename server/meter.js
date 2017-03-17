@@ -22,7 +22,7 @@ const dataHandler = {
     data (buffer) {
         if (this.listener) {
             let data = [];
-            for (let i = 0; i < data.length; i++) {
+            for (let i = 0; i < buffer.length; i++) {
                 data.push(String.fromCharCode(buffer[i]));
             }
             console.log(data)
