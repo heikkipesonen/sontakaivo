@@ -101,7 +101,7 @@ const well = {
           days[date] = [];
         }
 
-        days[date].push(date);
+        days[date].push(row);
         return days;
       }, {});
 
