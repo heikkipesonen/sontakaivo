@@ -8,10 +8,11 @@ router.get('/', (req, res) => {
 
 router.get('/meter', (req, res) => {
     console.log('reading values');
-    meter.read().then((response) => {
+    meter.read(20).then((response) => {
         console.log('values read', response);
         res.json(200, response);
     }, () => {
+        console.log('i has error')
         res.send(500);
     })
 });
