@@ -7,7 +7,7 @@ router.get('/', (req, res) => {
 });
 
 router.get('/measured', (req, res) => {
-    const start = req.param('start') || Date.now() - 24 * 60 * 60 * 1000;
+    const start = req.param('start') || (Date.now() - 24 * 60 * 60 * 1000);
     const end = req.param('end') || Date.now();
     const offset = parseInt(req.param('offset')) || 0;
     const limit = parseInt(req.param('limit')) || 100;
