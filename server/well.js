@@ -3,7 +3,7 @@ const db = require('./db');
 const wellStatus = require('./models/wellstatus');
 
 meter.start();
-meter.on('data', () => {
+meter.on('data', (data) => {
   wellStatus.create({
     startTime: data.startTime,
     endTime: data.endTime,
