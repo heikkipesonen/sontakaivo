@@ -18,7 +18,7 @@ router.get('/measured', (req, res) => {
     });    
 });
 
-router.get('/', (req, res) => {
+router.get('/latest', (req, res) => {
     well.latest().then((result) => {
         res.status(200)
             .json(result);
