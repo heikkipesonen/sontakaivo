@@ -25,7 +25,7 @@ const dataHandler = {
             for (let i = 0; i < buffer.length; i++) {
                 data.push(String.fromCharCode(buffer[i]));
             }
-            
+            console.log(data);
             if (data[0] === 'R' && data[data.length-1] === '\r') {
                 this.listener({
                     timeStamp: Date.now(),
