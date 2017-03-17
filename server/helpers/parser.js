@@ -9,6 +9,7 @@ const parser = {
   },
 
   number (value, max = null) {
+    if (value === undefined) return;
     let number = parseInt(value);
     return (max !== null && number > max) ? max : number;
   },
