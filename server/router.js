@@ -18,4 +18,11 @@ router.get('/measured', (req, res) => {
     });    
 });
 
+router.get('/day', (req, res) => {
+    well.day().then((result) => {
+        res.status(200)
+            .json(result);
+    })
+})
+
 module.exports = router;
