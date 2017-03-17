@@ -10,25 +10,7 @@ const wellStatus = db.define('wellstatus', {
   value: {
     type: Sequelize.INTEGER,
     allowNull: false
-  },
-  startTime: {
-    type: Sequelize.DATE,
-    set (value) {
-      this.setDataValue(new Date(value));
-    },
-    get () {
-      return this.getDataValue().valueOf();
-    }
-  },  
-  endTime: {
-    type: Sequelize.DATE,
-    set (value) {
-      this.setDataValue(new Date(value));
-    },
-    get () {
-      return this.getDataValue().valueOf();
-    }
-  },  
+  }  
 });
 
 module.exports = wellStatus;
