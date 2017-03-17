@@ -2,7 +2,7 @@ const _ = require('lodash');
 const rpio = require('rpio');
 const SerialPort = require('serialport');
 const options = {
-    baudRate: 4800,
+    baudRate: 9600,
     dataBits: 8,
     stopBits: 1,
     parity: 'none'
