@@ -39,7 +39,8 @@ const dataHandler = {
         self.reading = new Promise((resolve) => {
             const result = [];
             self.listener = (data) => {
-                result.push(data);                
+                result.push(data);          
+                console.log(result)      
                 if (result.length >= entries || result.length >= self.maxEntries) {
                     resolve(result);
                     self.listener = null;
