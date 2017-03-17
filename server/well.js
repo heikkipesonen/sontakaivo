@@ -11,7 +11,7 @@ meter.on('data', (data) => {
   });
 
   console.log(meter.data);
-  console.log(typeof meter.data.value);
+  console.log(typeof data.value);
 })
 
 const well = {
