@@ -79,7 +79,7 @@ const well = {
       iterator.setDate(iterator.getDate() + 1);
     }
     
-    const chain = new db.Utils.QueryChainer();
+    const chain = new db.Utils.QueryChainer;
     queryDays.forEach((day) => {
       let startAt = day;
       let endAt = parser.endOf(day);
