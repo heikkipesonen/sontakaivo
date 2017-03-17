@@ -7,7 +7,7 @@ const wellStatus = db.define('wellstatus', {
     defaultValue: Sequelize.UUIDV4,
     primaryKey: true
   },
-  value: {
+  level: {
     type: Sequelize.INTEGER,
     allowNull: false
   },

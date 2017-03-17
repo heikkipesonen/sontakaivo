@@ -7,7 +7,7 @@ meter.on('data', (data) => {
   wellStatus.create({    
     startTime: data.startTime,
     endTime: data.endTime,
-    value: data.value
+    level: data.value
   });
 
   console.log(meter.data);
