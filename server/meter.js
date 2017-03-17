@@ -101,6 +101,9 @@ const fire = function (event) {
 }
 
 const meter = {
+    open,
+    close,
+
     active: false,
 
     listeners: {},
