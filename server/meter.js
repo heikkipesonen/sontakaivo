@@ -42,11 +42,12 @@ const dataHandler = {
             return self.reading;
         }
 
-        self.reading = new Promise((resolve) => {
+        const reading = new Promise((resolve, reject) => {
             const result = [];
             self.listener = (data) => {
                 result.push(data);          
                 if (result.length >= entries || result.length >= self.maxEntries) {
+                    console.log('enough results')
                     resolve(result);
                     self.listener = null;
                     self.reading = null;
@@ -54,7 +55,8 @@ const dataHandler = {
             }
         });
 
-        return self.reading;
+        self.reading = reading;
+        return reading;
     }
 }
 
