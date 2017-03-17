@@ -29,13 +29,14 @@ const well = {
         }
       },
       order: 'measuredAt DESC'
-    }).then((rows) => {
+    }).then((data) => {
       return {
         startAt: start.valueOf(),
         endAt: end.valueOf(),
         offset,
         limit,
-        ...rows
+        rows: data.rows,
+        count: data.count
       }
     });
   }
