@@ -10,7 +10,14 @@ const wellStatus = db.define('wellstatus', {
   value: {
     type: Sequelize.INTEGER,
     allowNull: false
-  }  
+  },
+  measuredAt: {
+    type: 'TIMESTAMP',
+    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+    allowNull: false
+  }
+}, {
+  timestamps: false  
 });
 
 module.exports = wellStatus;
