@@ -55,7 +55,6 @@ const well = {
     const endAt = parser.endOfDay(day);  
 
     return wellStatus.findAndCountAll({
-      attributes: ['value', [sequelize.fn('AVG', sequelize.col('value'))]],
       where: {
         measuredAt: {
           $gte: startAt,
