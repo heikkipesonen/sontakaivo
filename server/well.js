@@ -76,6 +76,9 @@ const well = {
             $lte: endAt
           }
         }
+      }).then((data) => {
+        data.rows[0].measuredAt = day.valueOf();
+        return data;
       }));
   },
 
