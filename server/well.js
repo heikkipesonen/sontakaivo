@@ -92,7 +92,9 @@ const well = {
 
     const promises = queryDays.map((day) => this.day(day));
     return Promise.all(promises).then((days) => {
-      return days.map((day) => day.rows);
+      return days
+        .filter((day) => day.rows.length > 0)
+        .map((day) => day.rows);
     });
   }
 }
