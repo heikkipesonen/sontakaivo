@@ -107,14 +107,35 @@ const meter = {
 
     listeners: {},
 
+    _interval: null,
+    data: null,
+
+    start () {
+        meter.readValue();
+        meter._interval = setInterval(meter.readValue, 1000 * 60);
+    },
+
+    stop () {
+        clearInterval(meter._interval);
+    },
+
     read: readValues,
+
+    readValue () {
+        return meter.readAverage().then((data) => {
+            meter.close();
+            meter.data = data;
+            fire('data', meter.data);
+            return meter.data;
+        });        
+    },
 
     // return single average value from multiple measurements
     readAverage (count = 50) {
         return new Promise((resolve, reject) => {            
             open().then(() => {
-                readValues(50).then((response) => {
-                    response.splice(response.length/2 - 1, response.length/2);
+                readValues(count).then((response) => {
+                    response.splice(Math.floor(response.length/2) - 1, Math.ceil(response.length/2));
                     const average = response.reduce((sum, reading) => sum + reading.value, 0) / response.length;
                     let endTime = response[response.length-1].timeStamp;
                     let startTime = response[0].timeStamp;
