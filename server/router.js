@@ -19,7 +19,14 @@ router.get('/measured', (req, res) => {
 });
 
 router.get('/day', (req, res) => {
-    well.day().then((result) => {
+    well.day(req.param('startAt')).then((result) => {
+        res.status(200)
+            .json(result);
+    })
+});
+
+router.get('/month', (req, res) => {
+    well.month(req.param('startAt')).then((result) => {
         res.status(200)
             .json(result);
     })

@@ -71,7 +71,28 @@ const well = {
   month (date = new Date()) {
     const startAt = parser.startOf(date, 'month');
     const endAt = parser.endOf(date, 'month');
+    
+    let queryDays = [];
+    let iterator = new Date(startAt.valueOf());
+    while (iterator.getMonth() === startAt.getMonth()) {
+      queryDays.push(new Date(iterator.valueOf()));
+      iterator.setDate(iterator.getDate() + 1);
+    }
 
+    console.log(queryDays);
+
+    return this._respond(startAt, endAt, 0, 0, 
+      wellStatus.findAndCountAll({
+        attributes: [
+          [sequelize.fn('AVG', sequelize.col('value')), 'value']
+        ],
+        where: {
+          measuredAt: {
+            $gte: startAt,
+            $lte: endAt
+          }        
+        }
+      }));      
   }
 }
 
