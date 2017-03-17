@@ -27,9 +27,11 @@ const dataHandler = {
             }
             
             if (data[0] === 'R' && data[data.length-1] === '\r') {
+                let value = parseInt( data.join('').replace('R', '').replace('\r', '') );
+
                 this.listener({
                     timeStamp: Date.now(),
-                    value: parseInt( data.join('').replace('R', '').replace('\r', '') ) 
+                    value
                 });
             }
         }
@@ -62,10 +64,13 @@ const dataHandler = {
 const readValue = (values = 10) => {
     return new Promise((resolve, reject) => {
         rpio.write(12, rpio.HIGH);
-        dataHandler.listen(values).then((values) => {
-            rpio.write(12, rpio.LOW);
-            resolve(values);
-        }, reject);
+        // wait for sensor to initialize
+        setTimeout(() => {
+            dataHandler.listen(values).then((values) => {
+                rpio.write(12, rpio.LOW);
+                resolve(values);
+            }, reject);
+        }, 100);
     });
 }
 
