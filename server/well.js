@@ -69,8 +69,7 @@ const well = {
       wellStatus.findAndCountAll({
         attributes: [
           [sequelize.fn('AVG', sequelize.col('value')), 'value'],
-          sequelize.fn('min', sequelize.col('measuredAt'), 'startAt'),
-          sequelize.fn('max', sequelize.col('measuredAt'), 'endAt')
+          sequelize.fn('max', sequelize.col('measuredAt'), 'measuredAt')
         ],
         where: {
           measuredAt: {
