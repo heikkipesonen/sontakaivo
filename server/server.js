@@ -20,7 +20,7 @@ server.use(bodyParser.json());
 server.get('/', (req, res) => {
     const html = fs.readFileSync('index.html');
     html = html.replace('<!-- {{liveScript}} -->', '<script type="text/javascript" src="http://livejs.com/live.js"></script>');
-    res.send(html);    
+    res.send(html);
 });
 
 server.use('/api', router);

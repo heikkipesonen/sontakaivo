@@ -12,6 +12,16 @@ meter.on('data', (data) => {
 });
 
 const well = {
+
+  /**
+   * buld response
+   * @param  {Date} startAt
+   * @param  {Date} endAt
+   * @param  {number} offset
+   * @param  {number} limit
+   * @param  {Promise} promise
+   * @return {Promise}
+   */
   _respond (startAt, endAt, offset, limit, promise) {
     return promise.then((data) => {
       return {
@@ -25,6 +35,10 @@ const well = {
     });
   },
 
+  /**
+   * retrieve latest measurement
+   * @return {Promise}
+   */
   latest () {
     return wellStatus.findAndCountAll({
       offset: 0,
@@ -36,6 +50,14 @@ const well = {
     });
   },
 
+  /**
+   * select a time range
+   * @param  {Date} startAt
+   * @param  {Date} endAt
+   * @param  {number} offset
+   * @param  {number} limit
+   * @return {Promise}
+   */
   range (startAt, endAt, offset = 0, limit = 100) {
     offset = parser.number(offset);
     limit = parser.number(limit, 100);
@@ -61,6 +83,12 @@ const well = {
     );
   },
 
+  /**
+   * select items from one day,
+   * return one average row as result
+   * @param  {Date}
+   * @return {Promise}
+   */
   day (day = new Date()) {
     const startAt = parser.startOf(day);
     const endAt = parser.endOf(day);
@@ -80,6 +108,11 @@ const well = {
       }));
   },
 
+  /**
+   * select rows from one months time
+   * @param  {Date} date
+   * @return {Promise}
+   */
   month (date = new Date()) {
     const startAt = parser.startOf(date, 'month');
     const endAt = parser.endOf(date, 'month');
