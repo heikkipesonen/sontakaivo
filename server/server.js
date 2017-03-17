@@ -6,6 +6,12 @@ const router = require('./router');
 const meter = require('./meter');
 
 const fs = require('fs');
+const db = require('./db');
+const wellStatus = require('./models/wellstatus');
+
+db.sync({
+    force: true
+});
 
 server.use(express.static(path.join(__dirname, '../client/dist')));
 server.use(bodyParser.urlencoded({ extended: true }));
