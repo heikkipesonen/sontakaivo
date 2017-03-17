@@ -64,7 +64,7 @@ const open = () => {
     return new Promise((resolve, reject) => {
         rpio.write(12, rpio.HIGH);
         meter.active = true;
-        setTimeout(() => resolve, 3000);
+        setTimeout(resolve, 3000);
     });
 }
 
@@ -72,7 +72,7 @@ const close = () => {
     return new Promise((resolve, reject) => {
         rpio.write(12, rpio.LOW);
         meter.active = false;
-        setTimeout(() => resolve, 1);
+        setTimeout(resolve, 1);
     });
 }
 
