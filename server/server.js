@@ -15,8 +15,9 @@ db.sync({
 });
 
 server.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
   next();
 });
 server.use(express.static(path.join(__dirname, '../client/dist')));
@@ -25,7 +26,6 @@ server.use(bodyParser.json());
 
 server.get('/', (req, res) => {
     const html = fs.readFileSync('index.html');
-    html = html.replace('<!-- {{liveScript}} -->', '<script type="text/javascript" src="http://livejs.com/live.js"></script>');
     res.send(html);
 });
 
