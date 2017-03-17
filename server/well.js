@@ -25,6 +25,10 @@ const well = {
     });
   },
 
+  latest () {
+    return wellStatus.max('measuredAt');
+  },
+
   timeSpan (startAt, endAt, offset = 0, limit = 100) {
     offset = parser.number(offset);
     limit = parser.number(limit, 100);
@@ -78,31 +82,8 @@ const well = {
       queryDays.push(new Date(iterator.valueOf()));
       iterator.setDate(iterator.getDate() + 1);
     }
-    console.log(sequelize.Utils)
-    const chain = new db.Utils.QueryChainer;
-    queryDays.forEach((day) => {
-      let startAt = day;
-      let endAt = parser.endOf(day);
-
-      chain.add(
-        wellStatus.findAndCountAll({
-          attributes: [
-            [sequelize.fn('AVG', sequelize.col('value')), 'value']
-          ],
-          where: {
-            measuredAt: {
-              $gte: startAt,
-              $lte: endAt
-            }        
-          }
-        })  
-      )
-    });
-
-    return chain.run().then((response) => {
-      console.log(response);
-      return response;
-    })    
+    
+    
   }
 }
 
