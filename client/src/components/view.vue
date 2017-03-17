@@ -17,7 +17,11 @@ export default {
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
     display: flex;
-    overflow: hidden;    
+    overflow: hidden;
     @include theme('background-color', 'primary');
+}
+
+.view-content {
+  flex: 1 0 auto;
 }
 </style>
