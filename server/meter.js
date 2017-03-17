@@ -47,8 +47,10 @@ const dataHandler = {
             self.listener = function (data) {
                 result.push(data);          
                 if (result.length >= entries || result.length >= self.maxEntries) {
-                             resolve(result);
-                    console.log('enough results', resolve)
+                    self.listener = null;
+                    self.reading = null;
+                    resolve(result);
+                    console.log('enough results', resolve(result))
                 }
             }
         });
