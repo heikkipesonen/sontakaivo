@@ -7,7 +7,11 @@ router.get('/', (req, res) => {
 });
 
 router.get('/meter', (req, res) => {
-    res.json(meter);
+    meter.read().then((response) => {
+        res.send(200, response);
+    }, () => {
+        res.send(500);
+    })
 });
 
 module.exports = router;

@@ -1,5 +1,5 @@
 const fetch = window.fetch
-const url = 'http://localhost:9001'
+const url = 'http://192.168.1.200:8080/api'
 
 const api = {
   get (endpoint, params = {}) {

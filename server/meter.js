@@ -1,26 +1,69 @@
 const _ = require('lodash');
+const rpio = require('rpio');
 const SerialPort = require('serialport');
 const options = {
-    baudRate: 9600,
+    baudRate: 4800,
     dataBits: 8,
     stopBits: 1,
     parity: 'none'
 };
 
+rpio.open('12', rpio.OUTPUT, rpio.LOW);
 const port = new SerialPort('/dev/ttyAMA0', options, (error) => console.log(error));
 
-port.on('open', function (evt) {    
-    port.on('data', (data) => {
-        let d = [];
-        for (var i = 0; i < data.length; i++ ){
-            d.push( data[i] );
+
+const dataHandler = {
+    maxEntries: 100,
+    
+    listener: null,
+
+    reading: false,
+
+    data (event) {
+        if (this.listener) {
+            let value = data.toString();
+            this.listener( {
+                timeStamp: Date.now(),
+                value: parseInt( value.replace('R', '').replace('\r', '') ) 
+            });
+        }
+    },
+
+    listen (entries) {
+        const self = dataHandler;
+
+        if (self.reading) {
+            return self.reading;
         }
 
-        meter.value = d;        
-        meter.timeStamp = Date.now();        
+        self.reading = new Promise((resolve) => {
+            const result = [];
+            self.listener = (data) => {
+                result.push(data);
+                if (result.length >= entries || result.length >= maxEntries) {
+                    resolve(result);
+                    self.listener = null;
+                    self.reading = null;
+                }
+            }
+        });
 
-        _.debounce(() => meter.fire('data'), 500);
+        return self.reading;
+    }
+}
+
+const readValue = () => {
+    return new Promise((resolve, reject) => {
+        rpio.write(12, rpio.HIGH);
+        return dataHandler.listen(100).then((values) => {
+            rpio.write(12, rpio.LOW);
+            return values;
+        }, () => {});
     });
+}
+
+port.on('open', function (evt) {
+    port.on('data', (data) => dataHandler.data(data));
 });
 
 const listeners = {};
@@ -29,18 +72,13 @@ const fire = function (event) {
         listeners[event].forEach((callback) => {
             callback(meter);
         });
-    }    
+    }
 }
 
-const meter = {    
+const meter = {
     listeners: {},
 
-    timeStamp: Date.now(),
-    value: [],
-    
-    get distance () {
-        return parseInt(meter.value.map((char) => String.fromCharCode(char)).join('').replace('R', '').replace('\r', ''))
-    },
+    read: readValue,
 
     on (event, callback) {
         if (!listeners[event]) {
