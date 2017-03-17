@@ -83,36 +83,16 @@ const well = {
     const startAt = parser.startOf(date, 'month');
     const endAt = parser.endOf(date, 'month');
 
-    return wellStatus.findAndCountAll({
-      attributes: {
-        exclude: 'id'
-      },
-      where: {
-        measuredAt: {
-          $gte: startAt,
-          $lte: endAt
-        }
-      },
-      order: 'measuredAt DESC'
-    }).then((data) => {
-      data.rows = data.rows.reduce((days, row) => {
-        let date = parser.format(row.measuredAt);
-        if (!days[date]) {
-          days[date] = [];
-        }
+    let queryDays = [];
+    let iterator = new Date(startAt.valueOf());
+    while (iterator.getMonth() === startAt.getMonth()) {
+      queryDays.push(new Date(iterator.valueOf()));
+      iterator.setDate(iterator.getDate() + 1);
+    }
 
-        days[date].push(row);
-        return days;
-      }, {});
-
-      return {
-        offset: null,
-        limit: null,
-        startAt,
-        endAt,
-        count: data.count,
-        rows: data.rows
-      }
+    const promises = queryDays.map((day) => this.day);
+    return Promise.all(promises).then((days) => {
+      return days.map((day) => day.rows);
     });
   }
 }
