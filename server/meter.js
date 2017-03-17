@@ -92,9 +92,21 @@ const meter = {
 
     read (count) {
         return readValue(count).then((response) => {
-            console.log('i has resolved');
             return response;
         })
+    },
+
+    readAverage (count = 50) {
+        return new Promise((resolve, reject) => {
+            this.readValue(50).then((response) => {
+                const average = response.reduce((sum, reading) => sum + reading.value) / response.length;
+                resolve({
+                    startTime: response[0].timeStamp,
+                    endTime: response[response.length-1].timeStamp,
+                    value: average
+                });
+            });
+        });
     },
 
     on (event, callback) {

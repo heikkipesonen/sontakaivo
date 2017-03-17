@@ -8,7 +8,7 @@ router.get('/', (req, res) => {
 
 router.get('/meter', (req, res) => {
     console.log('reading values');
-    meter.read(20).then((response) => {        
+    meter.readAverage().then((response) => {        
         res.status(200)
             .json(response);
     }, () => res.send(500))
