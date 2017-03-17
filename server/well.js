@@ -17,12 +17,6 @@ const well = {
       attributes: {
         exclude: 'id'
       },
-      where: {
-        measuredAt: {
-          $qte: start,
-          $lte: end
-        }
-      },
       order: 'measuredAt DESC'
     });
   }
