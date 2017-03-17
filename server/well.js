@@ -11,12 +11,12 @@ meter.on('data', (data) => {
 });
 
 const well = {
-  timeSpan (startAt = new Date(), endAt = new Date(Date.now() - 24 * 60 * 60 * 1000), offset = 0, limit = 100) {
+  timeSpan (startAt, endAt, offset = 0, limit = 100) {
     offset = parser.number(offset);
     limit = parser.number(limit, 100);
     
-    startAt = parser.date(startAt);
-    endAt = parser.date(endAt);
+    startAt = startAt ? parser.date(startAt) : new Date();
+    endAt = endAt ? parser.date(endAt) : parser.startOfDay(new Date());
 
     return wellStatus.findAndCountAll({
       offset,
