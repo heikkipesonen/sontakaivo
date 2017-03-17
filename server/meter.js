@@ -46,7 +46,6 @@ const dataHandler = {
             const result = [];
             self.listener = (data) => {
                 result.push(data);          
-                console.log(result.length)      
                 if (result.length >= entries || result.length >= self.maxEntries) {
                     resolve(result);
                     self.listener = null;
@@ -64,12 +63,14 @@ const readValue = () => {
         rpio.write(12, rpio.HIGH);
         return dataHandler.listen(10).then((values) => {
             rpio.write(12, rpio.LOW);
+            console.log(values);
             return values;
         }, () => {});
     });
 }
 
 port.on('open', function (evt) {
+    console.log('gettin data');
     port.on('data', (data) => dataHandler.data(data));
 });
 
