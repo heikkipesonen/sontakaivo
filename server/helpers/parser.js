@@ -20,6 +20,10 @@ const parser = {
   endOf (date, type = 'day') {
     return moment(this.date(date)).endOf(type).toDate();
   },
+
+  format (date, format = 'dd.mm.yyyy') {
+    return moment(date).format(format);
+  }
 }
 
 module.exports = parser;
