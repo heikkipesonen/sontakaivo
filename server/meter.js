@@ -20,6 +20,7 @@ const dataHandler = {
     reading: false,
 
     data (buffer) {
+        console.log(buffer)
         if (this.listener) {            
             let data = [];
             for (let i = 0; i < buffer.length; i++) {
@@ -62,7 +63,7 @@ const dataHandler = {
 
 const open = () => {
     if (!meter.active) {
-        meter.active = new Promise((resolve, reject) => {
+        meter.active = new Promise((resolve, reject) => {            
             rpio.write(12, rpio.HIGH);
             meter.active = true;
             setTimeout(resolve, 3000);
