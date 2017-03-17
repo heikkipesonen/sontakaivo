@@ -24,8 +24,8 @@ const well = {
       },
       where: {
         measuredAt: {
-          $gte: start.valueOf(),
-          $lte: end.valueOf()
+          $gte: start,
+          $lte: end
         }
       },
       order: 'measuredAt DESC'
