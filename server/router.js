@@ -6,7 +6,7 @@ router.get('/', (req, res) => {
     res.json({kakka: true})
 });
 
-router.get('/measured', (req, res) => {
+router.get('/range', (req, res) => {
     const start = req.param('start') || Date.now() - 24 * 60 * 60 * 1000;
     const end = req.param('end') || Date.now();
     const offset = parseInt(req.param('offset')) || 0;
@@ -24,6 +24,7 @@ router.get('/latest', (req, res) => {
             .json(result);
     });
 });
+
 router.get('/day', (req, res) => {
     well.day(req.param('startAt')).then((result) => {
         res.status(200)
