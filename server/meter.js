@@ -114,9 +114,13 @@ const meter = {
                 readValues(50).then((response) => {
                     console.log(response);
                     const average = response.reduce((sum, reading) => sum + reading.value, 0) / response.length;
+                    let endTime = response[response.length-1].timeStamp;
+                    let startTime = response[0].timeStamp;
+
                     resolve({
-                        startTime: response[0].timeStamp,
-                        endTime: response[response.length-1].timeStamp,
+                        startTime,
+                        endTime,
+                        duration: endTime - startTime,
                         value: Math.ceil(average)
                     });
                 });
