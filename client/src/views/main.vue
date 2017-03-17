@@ -30,7 +30,7 @@ export default {
   },
 
   created () {
-    api.get('/month').then((response) => {
+    api.get('/range').then((response) => {
       console.log(response)
       this.items = response.rows
     })

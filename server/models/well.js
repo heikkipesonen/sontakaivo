@@ -58,9 +58,9 @@ const well = {
    * @param  {number} limit
    * @return {Promise}
    */
-  range (startAt, endAt, offset = 0, limit = 100) {
+  range (startAt, endAt, offset = 0, limit) {
     offset = parser.number(offset);
-    limit = parser.number(limit, 100);
+    limit = parser.number(limit);
 
     startAt = startAt ? parser.date(startAt) : new Date( Date.now() - 24 * 60 * 60 * 1000 );
     endAt = endAt ? parser.date(endAt) : new Date();

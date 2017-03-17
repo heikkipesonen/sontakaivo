@@ -10,7 +10,7 @@ const parser = {
 
   number (value, max = null) {
     let number = parseInt(value);
-    return max !== null && number > max ? max : number;
+    return (max !== null && number > max) ? max : number;
   },
 
   startOf (date, type = 'day') {
