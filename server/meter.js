@@ -111,8 +111,7 @@ const meter = {
     readAverage (count = 50) {
         return new Promise((resolve, reject) => {
             open().then(() => {
-                readValues(50).then((response) => {
-                    console.log(response);
+                readValues(50).then((response) => {                    
                     const average = response.reduce((sum, reading) => sum + reading.value, 0) / response.length;
                     let endTime = response[response.length-1].timeStamp;
                     let startTime = response[0].timeStamp;
