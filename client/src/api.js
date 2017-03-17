@@ -1,5 +1,6 @@
 const fetch = window.fetch
-const url = 'http://192.168.1.200:8080/api'
+import config from './config'
+const url = config.api_url
 
 const api = {
   get (endpoint, params = {}) {

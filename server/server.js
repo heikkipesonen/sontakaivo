@@ -1,6 +1,5 @@
 const express = require('express');
 const server = express();
-const cors = require('express-cors');
 const path = require('path');
 const bodyParser = require('body-parser');
 
@@ -15,9 +14,11 @@ db.sync({
     // force: true
 });
 
-server.use(cors({
-  allowedOrigin: '*'
-}));
+server.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 server.use(express.static(path.join(__dirname, '../client/dist')));
 server.use(bodyParser.urlencoded({ extended: true }));
 server.use(bodyParser.json());

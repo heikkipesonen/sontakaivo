@@ -6,6 +6,7 @@
 </view-container>
 </template>
 <script>
+import api from '../api'
 import viewContainer from '../components/view'
 
 export default {
@@ -17,6 +18,12 @@ export default {
     reload () {
       window.location.reload()
     }
+  },
+
+  created () {
+    api.get('/latest').then((response) => {
+      console.log(response)
+    })
   }
 }
 </script>
