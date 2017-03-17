@@ -32,7 +32,7 @@ const well = {
     startAt = startAt ? parser.date(startAt) : new Date( Date.now() - 24 * 60 * 60 * 1000 );
     endAt = endAt ? parser.date(endAt) : new Date();
 
-    return this,_respond(startAt, endAt, offset, limit, 
+    return this._respond(startAt, endAt, offset, limit, 
       wellStatus.findAndCountAll({
         offset,
         limit,
