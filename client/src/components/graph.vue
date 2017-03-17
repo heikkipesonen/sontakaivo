@@ -1,6 +1,6 @@
 <template>
 <svg width="100%" height="100%">
-  <circle v-for="point in points" :cx="point.x" :cy="point.y"></circle>
+  <polyline :points="points"></polyline>
 </svg>
 </template>
 <script>
@@ -32,12 +32,9 @@ export default {
       let xfactor = this.width / this.count
       let yfactor = this.height / this.max
 
-      return this.rows.map((row, index) => {
-        return {
-          y: this.height - (row.value * yfactor),
-          x: index * xfactor
-        }
-      })
+      return this.rows.reverse().map((row, index) => {
+        return `${index * xfactor},${this.height - (row.value * yfactor)}`
+      }).join(' ')
     }
   },
 
@@ -53,11 +50,11 @@ export default {
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
 
-    circle {
+    polyline {
       opacity: 0.6;
       stroke: #e8fffd;
+      stroke-width: 2;
       fill: transparent;
-      r: 10;
     }
   }
 </style>
