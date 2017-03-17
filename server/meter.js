@@ -76,16 +76,13 @@ const open = () => {
 const close = () => {
     return new Promise((resolve, reject) => {
         rpio.write(12, rpio.LOW);
-        meter.active = false;        
+        meter.active = false;
         setTimeout(resolve, 1);
     });
 }
 
 const readValues = (values = 10) => {
-    return dataHandler.listen(values).then((values) => {
-        close();
-        return values;
-    });
+    return dataHandler.listen(values);
 }
 
 port.on('open', function (evt) {
@@ -103,6 +100,7 @@ const fire = function (event) {
 
 const meter = {
     open,
+
     close,
 
     active: false,
