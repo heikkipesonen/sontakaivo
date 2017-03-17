@@ -19,12 +19,16 @@ const dataHandler = {
 
     reading: false,
 
-    data (data) {
+    data (buffer) {
         if (this.listener) {
-            let value = data.toString('utf8');            
+            let data = [];
+            for (let i = 0; i < data.length; i++) {
+                data.push(String.fromCharCode(buffer[i]));
+            }
+            
             this.listener({
                 timeStamp: Date.now(),
-                value: parseInt( value.replace('R', '').replace('\r', '') ) 
+                value: parseInt( data.join('').replace('R', '').replace('\r', '') ) 
             });
         }
     },
