@@ -7,7 +7,10 @@ const wellStatus = db.define('wellstatus', {
     defaultValue: Sequelize.UUIDV4,
     primaryKey: true
   },
-  value: Sequelize.INTEGER,
+  value: {
+    type: Sequelize.INTEGER,
+    allowNull: false
+  },
   startTime: {
     type: Sequelize.DATE,
     set (value) {
