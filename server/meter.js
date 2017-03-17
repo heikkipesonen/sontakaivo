@@ -20,12 +20,12 @@ const dataHandler = {
     reading: false,
 
     data (buffer) {
-        if (this.listener) {
+        if (this.listener) {            
             let data = [];
             for (let i = 0; i < buffer.length; i++) {
                 data.push(String.fromCharCode(buffer[i]));
             }
-            console.log(data);
+            
             if (data[0] === 'R' && data[data.length-1] === '\r') {
                 this.listener({
                     timeStamp: Date.now(),
@@ -58,19 +58,17 @@ const dataHandler = {
     }
 }
 
-const readValue = () => {
+const readValue = (values = 10) => {
     return new Promise((resolve, reject) => {
         rpio.write(12, rpio.HIGH);
-        return dataHandler.listen(10).then((values) => {
+        return dataHandler.listen(values).then((values) => {
             rpio.write(12, rpio.LOW);
-            console.log(values);
             return values;
         }, () => {});
     });
 }
 
 port.on('open', function (evt) {
-    console.log('gettin data');
     port.on('data', (data) => dataHandler.data(data));
 });
 
