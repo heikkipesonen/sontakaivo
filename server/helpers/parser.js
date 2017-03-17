@@ -1,6 +1,9 @@
 const parser = {
   date (value) {
-    return new Date( Date.parse( value) );
+    if (typeof(value) === 'number') {
+      return new Date(value);
+    }
+    return new Date( Date.parse(value) );
   }
 }
 
