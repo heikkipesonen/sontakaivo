@@ -21,9 +21,8 @@ const dataHandler = {
 
     data (data) {
         if (this.listener) {
-            let value = data.toString();
-            console.log(data);
-            this.listener( {
+            let value = data.toString('utf8');            
+            this.listener({
                 timeStamp: Date.now(),
                 value: parseInt( value.replace('R', '').replace('\r', '') ) 
             });
@@ -40,7 +39,7 @@ const dataHandler = {
         self.reading = new Promise((resolve) => {
             const result = [];
             self.listener = (data) => {
-                result.push(data);
+                result.push(data);                
                 if (result.length >= entries || result.length >= self.maxEntries) {
                     resolve(result);
                     self.listener = null;
