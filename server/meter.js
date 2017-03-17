@@ -87,7 +87,10 @@ const meter = {
     listeners: {},
 
     read (count) {
-        return readValue(count)
+        return readValue(count).then((response) => {
+            console.log('i has resolved');
+            return response;
+        })
     },
 
     on (event, callback) {
