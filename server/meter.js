@@ -70,7 +70,7 @@ const readValue = (values = 10) => {
                 rpio.write(12, rpio.LOW);
                 resolve(values);
             }, reject);
-        }, 100);
+        }, 500);
     });
 }
 
