@@ -2,7 +2,10 @@ const Sequelize = require('sequelize');
 const db = require('../db');
 
 const wellStatus = db.define('wellstatus', {
-  id: Sequelize.UUID,
+  id: {
+    type: Sequelize.UUID,
+    primaryKey: true
+  },
   value: Sequelize.INTEGER,
   timeStamp: {
     type: Sequelize.DATE,
