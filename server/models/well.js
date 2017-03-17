@@ -129,9 +129,9 @@ const well = {
     return this._respond(startAt, endAt, null, null, Promise.all(promises).then((days) => {
       return {
         count: null,
-        rows: days
+        rows: [].concat.apply([], days
           .filter((day) => day.rows.length > 0)
-          .map((day) => day.rows)
+          .map((day) => day.rows))
       }
     }));
   }
