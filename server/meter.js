@@ -25,7 +25,7 @@ const dataHandler = {
             for (let i = 0; i < data.length; i++) {
                 data.push(String.fromCharCode(buffer[i]));
             }
-            
+            console.log(data)
             this.listener({
                 timeStamp: Date.now(),
                 value: parseInt( data.join('').replace('R', '').replace('\r', '') ) 
