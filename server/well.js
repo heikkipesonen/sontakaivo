@@ -10,10 +10,10 @@ meter.on('data', (data) => {
 });
 
 const well = {
-  timeSpan (start, end, offset = 0) {
+  timeSpan (start, end, offset = 0, limit = 100) {
     return wellStatus.findAll({
       offset,
-      limit: 1000,
+      limit,
       attributes: {
         exclude: 'id'
       },
@@ -24,6 +24,12 @@ const well = {
         }
       },
       order: 'measuredAt DESC'
+    }).then((rows) => {
+      return {
+        offset,
+        limit,
+        rows
+      }
     });
   }
 }
