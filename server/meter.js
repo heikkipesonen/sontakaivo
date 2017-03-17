@@ -22,6 +22,7 @@ const dataHandler = {
     data (data) {
         if (this.listener) {
             let value = data.toString();
+            console.log(data);
             this.listener( {
                 timeStamp: Date.now(),
                 value: parseInt( value.replace('R', '').replace('\r', '') ) 
