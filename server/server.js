@@ -1,10 +1,12 @@
 const express = require('express');
 const server = express();
+const cors = require('express-cors');
 const path = require('path');
 const bodyParser = require('body-parser');
-const router = require('./router');
-const meter = require('./meter');
 
+const router = require('./router');
+
+const meter = require('./meter');
 const fs = require('fs');
 const db = require('./db');
 const wellStatus = require('./models/wellstatus');
@@ -13,6 +15,9 @@ db.sync({
     // force: true
 });
 
+server.use(cors({
+  allowedOrigin: '*'
+}));
 server.use(express.static(path.join(__dirname, '../client/dist')));
 server.use(bodyParser.urlencoded({ extended: true }));
 server.use(bodyParser.json());
