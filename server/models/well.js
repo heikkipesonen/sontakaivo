@@ -1,8 +1,8 @@
-const meter = require('./meter');
-const db = require('./db');
+const meter = require('../meter');
+const db = require('../db');
 const sequelize = require('sequelize');
-const wellStatus = require('./models/wellstatus');
-const parser = require('./helpers/parser');
+const wellStatus = require('./wellstatus');
+const parser = require('../helpers/parser');
 
 meter.start();
 meter.on('data', (data) => {
