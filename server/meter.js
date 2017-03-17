@@ -61,7 +61,11 @@ const dataHandler = {
 }
 
 const open = () => {
-    return new Promise((resolve, reject) => {
+    if (meter.active) {
+        return meter.active;
+    }
+
+    meter.active = new Promise((resolve, reject) => {
         rpio.write(12, rpio.HIGH);
         meter.active = true;
         setTimeout(resolve, 3000);
@@ -71,18 +75,16 @@ const open = () => {
 const close = () => {
     return new Promise((resolve, reject) => {
         rpio.write(12, rpio.LOW);
-        meter.active = false;
+        meter.active = false;        
         setTimeout(resolve, 1);
     });
 }
 
 const readValues = (values = 10) => {
-    return open().then(() => {
-        return dataHandler.listen(values).then((values) => {
-            close();
-            return values;
-        });
-    })
+    return dataHandler.listen(values).then((values) => {
+        close();
+        return values;
+    });
 }
 
 port.on('open', function (evt) {
@@ -108,15 +110,17 @@ const meter = {
     // return single average value from multiple measurements
     readAverage (count = 50) {
         return new Promise((resolve, reject) => {
-            readValues(50).then((response) => {
-                console.log(response);
-                const average = response.reduce((sum, reading) => sum + reading.value, 0) / response.length;
-                resolve({
-                    startTime: response[0].timeStamp,
-                    endTime: response[response.length-1].timeStamp,
-                    value: Math.ceil(average)
+            open().then(() => {
+                readValues(50).then((response) => {
+                    console.log(response);
+                    const average = response.reduce((sum, reading) => sum + reading.value, 0) / response.length;
+                    resolve({
+                        startTime: response[0].timeStamp,
+                        endTime: response[response.length-1].timeStamp,
+                        value: Math.ceil(average)
+                    });
                 });
-            });
+            })
         });
     },
 
