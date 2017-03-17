@@ -90,8 +90,10 @@ const well = {
       iterator.setDate(iterator.getDate() + 1);
     }
 
-    const promises = queryDays.map((day) => this.day);
-    return Promise.all(promises);
+    const promises = queryDays.map((day) => this.day(day));
+    return Promise.all(promises).then((days) => {
+      return days.map((day) => day.rows);
+    });
   }
 }
 
