@@ -11,10 +11,12 @@ meter.on('data', (data) => {
 });
 
 const well = {
-  timeSpan (start, end, offset = 0, limit = 100) {
-    limit = limit > 100 ? 100 : limit;
-    start = parser.date(start);
-    end = parser.date(end);
+  timeSpan (startAt = new Date(), endAt = new Date(Date.now() - 24 * 60 * 60 * 1000), offset = 0, limit = 100) {
+    offset = parser.number(offset);
+    limit = parser.number(limit, 100);
+    
+    startAt = parser.date(startAt);
+    endAt = parser.date(endAt);
 
     return wellStatus.findAndCountAll({
       offset,
@@ -24,21 +26,27 @@ const well = {
       },
       where: {
         measuredAt: {
-          $gte: start,
-          $lte: end
+          $gte: startAt,
+          $lte: endAt
         }
       },
       order: 'measuredAt DESC'
     }).then((data) => {
       return {
-        startAt: start.valueOf(),
-        endAt: end.valueOf(),
+        startAt: startAt.valueOf(),
+        endAt: endAt.valueOf(),
         offset,
         limit,
         rows: data.rows,
         count: data.count
       }
     });
+  },
+
+  day (day = new Date(), offset = 0, limit = 100) {
+    let startAt = parser.startOfDay(day);
+    let endAt = parser.endOfDay(day);  
+    return this.timeSpan(startAt, endAt, offset, limit);
   }
 }
 

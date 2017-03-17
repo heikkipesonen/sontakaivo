@@ -12,7 +12,7 @@ router.get('/measured', (req, res) => {
     const offset = parseInt(req.param('offset')) || 0;
     const limit = parseInt(req.param('limit')) || 100;
 
-    well.timeSpan(start, end, offset, limit).then((response) => {
+    well.timeSpan(req.param('startAt'), req.param('endAt'), req.param('offset'), req.param('limit')).then((response) => {
         res.status(200)
             .json(response);
     });    
