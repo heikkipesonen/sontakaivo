@@ -6,6 +6,7 @@ router.get('/', (req, res) => {
     res.json({kakka: true})
 });
 
+meter.start();
 meter.on('data', () => {
     console.log(meter.data);
 })
