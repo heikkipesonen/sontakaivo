@@ -11,7 +11,7 @@ router.get('/measured', (req, res) => {
     const end = req.param.end || Date.now();
     const offset = req.param.offset || 0;
     const limit = req.param.limit || 100;
-
+console.log(req)
     well.timeSpan(start, end, offset, limit).then((response) => {
         res.status(200)
             .json(response);
