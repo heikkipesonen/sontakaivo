@@ -51,8 +51,8 @@ const well = {
   },
 
   day (day = new Date()) {
-    const startAt = parser.startOfDay(day);
-    const endAt = parser.endOfDay(day);  
+    const startAt = parser.startOf(day);
+    const endAt = parser.endOf(day);  
 
     return this._respond(startAt, endAt, 0, 0, 
       wellStatus.findAndCountAll({
@@ -67,6 +67,12 @@ const well = {
           }        
         }
       }));    
+  },
+
+  month (date = new Date()) {
+    const startAt = parser.startOf(date, 'month');
+    const endAt = parser.endOf(date, 'month');
+    
   }
 }
 

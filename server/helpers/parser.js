@@ -1,3 +1,5 @@
+const moment = require('moment');
+
 const parser = {
   date (value) {
     if (typeof(value) === 'number') {
@@ -11,23 +13,13 @@ const parser = {
     return max !== null && number > max ? max : number;
   },
 
-  startOfDay (date) {
-    date = this.date(date);
-    date.setHours(0);
-    date.setMinutes(0);
-    date.setSeconds(0);
-    date.setMilliseconds(0);
-    return date;
+  startOf (date, type = 'day') {
+    return moment(this.date(date)).startOf(type).toDate();
   },
 
-  endOfDay (date) {
-    date = this.date(date);
-    date.setHours(23);
-    date.setMinutes(59);
-    date.setSeconds(59);
-    date.setMilliseconds(999);
-    return date;
-  }
+  endOf (date, type = 'day') {
+    return moment(this.date(date)).endOf(type).toDate();
+  },
 }
 
 module.exports = parser;
