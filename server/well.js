@@ -26,7 +26,14 @@ const well = {
   },
 
   latest () {
-    return wellStatus.max('measuredAt');
+    return wellStatus.findAndCountAll({
+      offset: 0,
+      limit: 1,
+      attributes: {
+        exclude: 'id'
+      },
+      orderBy: 'measuredAt DESC'
+    });
   },
 
   timeSpan (startAt, endAt, offset = 0, limit = 100) {
