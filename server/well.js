@@ -84,8 +84,6 @@ const well = {
     const endAt = parser.endOf(date, 'month');
 
     return wellStatus.findAndCountAll({
-      offset,
-      limit,
       attributes: {
         exclude: 'id'
       },
@@ -108,6 +106,8 @@ const well = {
       }, {});
 
       return {
+        offset: null,
+        limit: null,
         startAt,
         endAt,
         count: data.count,
