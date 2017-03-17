@@ -111,11 +111,10 @@ const meter = {
 
     // return single average value from multiple measurements
     readAverage (count = 50) {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve, reject) => {            
             open().then(() => {
-                readValues(50).then((response) => {               
+                readValues(50).then((response) => {
                     response.splice(response.length/2 - 1, response.length/2);
-                    console.log(response)
                     const average = response.reduce((sum, reading) => sum + reading.value, 0) / response.length;
                     let endTime = response[response.length-1].timeStamp;
                     let startTime = response[0].timeStamp;
@@ -127,7 +126,7 @@ const meter = {
                         value: Math.ceil(average)
                     });
                 });
-            })
+            });
         });
     },
 

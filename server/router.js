@@ -6,13 +6,17 @@ router.get('/', (req, res) => {
     res.json({kakka: true})
 });
 
-meter.open();
+
 router.get('/meter', (req, res) => {
     console.log('reading values');
     meter.readAverage().then((response) => {        
+        meter.close();
         res.status(200)
             .json(response);
-    }, () => res.status(500))
+    }, () => {
+        meter.close();
+        res.status(500);
+    });
 });
 
 module.exports = router;
