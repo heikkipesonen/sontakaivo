@@ -49,8 +49,7 @@ const dataHandler = {
                 if (result.length >= entries || result.length >= self.maxEntries) {
                     self.listener = null;
                     self.reading = null;
-                    resolve(result);
-                    console.log('enough results', resolve(result))
+                    reject(result);
                 }
             }
         });
