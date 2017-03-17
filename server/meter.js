@@ -153,7 +153,7 @@ const meter = {
         return meter.readAverage().then((data) => {
             meter.close();
             meter.data = data;
-            fire('data', meter.data);
+            fire('data', data);
             return meter.data;
         });        
     },
