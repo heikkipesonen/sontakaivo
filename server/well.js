@@ -7,13 +7,25 @@ meter.on('data', (data) => {
   wellStatus.create({    
     value: meter.data.value
   });
-
-  console.log(meter.data);
-  console.log(typeof data.value);
-})
+});
 
 const well = {
-
+  timeSpan (start, end, offset = 0) {
+    return wellStatus.findAll({
+      offset,
+      limit: 1000,
+      attributes: {
+        exclude: 'id'
+      },
+      where: {
+        measuredAt: {
+          $qte: new Date(Date.parse(start)),
+          $lte: new Date(Date.parse(end))
+        }
+      },
+      order: 'measuredAt DESC'
+    });
+  }
 }
 
 module.exports = well;

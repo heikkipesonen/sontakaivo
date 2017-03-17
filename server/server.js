@@ -8,7 +8,6 @@ const meter = require('./meter');
 const fs = require('fs');
 const db = require('./db');
 const wellStatus = require('./models/wellstatus');
-const well = require('./well');
 
 db.sync({
     force: true
