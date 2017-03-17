@@ -78,9 +78,8 @@ const well = {
       queryDays.push(new Date(iterator.valueOf()));
       iterator.setDate(iterator.getDate() + 1);
     }
-
-    console.log(sequelize.Utils.QueryChainer)
-    const chain = new sequelize.Utils.QueryChainer();
+    
+    const chain = new db.Utils.QueryChainer();
     queryDays.forEach((day) => {
       let startAt = day;
       let endAt = parser.endOf(day);
