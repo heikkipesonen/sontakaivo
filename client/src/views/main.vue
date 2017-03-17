@@ -1,9 +1,11 @@
 <template>
 <view-container>
+  <div class="">
+    <graph :rows="items"></graph>
+  </div>
   <button v-on:click="reload()">
     reload
   </button>
-  <graph :rows="items"></graph>
 </view-container>
 </template>
 <script>
@@ -25,6 +27,7 @@ export default {
 
   methods: {
     reload () {
+      console.log('reload')
       window.location.reload()
     }
   },
@@ -37,4 +40,5 @@ export default {
   }
 }
 </script>
-<style lang="scss"></style>
+<style lang="scss">
+</style>
