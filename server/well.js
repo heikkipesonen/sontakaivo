@@ -92,7 +92,8 @@ const well = {
     }
 
     const promises = queryDays.map((day) => this.day(day));
-    this._respond(startAt, endAt, null, null, Promise.all(promises).then((days) => {
+
+    return this._respond(startAt, endAt, null, null, Promise.all(promises).then((days) => {
       return {
         count: null,
         rows: days
