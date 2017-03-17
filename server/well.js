@@ -17,6 +17,12 @@ const well = {
       attributes: {
         exclude: 'id'
       },
+      where: {
+        measuredAt: {
+          $gte: new Date(Date.parse(start)),
+          $lte: new Date(Date.parse(end))
+        }
+      },
       order: 'measuredAt DESC'
     });
   }
