@@ -31,9 +31,10 @@ export default {
     points () {
       let xfactor = this.width / this.count
       let yfactor = this.height / this.max
+      let yoffset = this.height * 0.1
 
       return this.rows.reverse().map((row, index) => {
-        return `${index * xfactor},${this.height - (row.value * yfactor)}`
+        return `${index * xfactor},${this.height - (row.value * yfactor) - yoffset}`
       }).join(' ')
     }
   },
