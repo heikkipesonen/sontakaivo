@@ -61,10 +61,10 @@ const well = {
       let previousRow = null;
 
       response.rows.forEach((row) => {
-        console.log(row)
           if (previousRow) {
               let dy = previousRow.value - row.value
               let dt = previousRow.measuredAt - row.measuredAt
+              console.log(row.value, row.measuredAt);
               changeValues.push(dt/dy)
           }
           previousRow = row;
