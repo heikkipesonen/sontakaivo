@@ -8,9 +8,8 @@ const options = {
     parity: 'none'
 };
 
-rpio.open('12', rpio.OUTPUT, rpio.LOW);
+rpio.open(12, rpio.OUTPUT, rpio.LOW);
 const port = new SerialPort('/dev/ttyAMA0', options, (error) => console.log(error));
-
 
 const dataHandler = {
     maxEntries: 100,
@@ -26,7 +25,6 @@ const dataHandler = {
      * @returns {void}
      */
     data (buffer) {
-      console.log(buffer)
         if (this.listener) {
             let data = [];
             for (let i = 0; i < buffer.length; i++) {
@@ -59,7 +57,7 @@ const dataHandler = {
             const result = [];
             self.listener = function (data) {
                 result.push(data);
-                if (result.length >= count || result.length >= self.maxEntries) {
+                if (result.length >= count || result.length >= self.maxEntries) {
                     self.listener = null;
                     self.reading = null;
                     resolve(result);
