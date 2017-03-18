@@ -72,7 +72,7 @@ const well = {
       let meanValue = total / changeValues.length
       return meanValue
     })
-  }
+  },
 
   /**
    * retrieve latest measurement
