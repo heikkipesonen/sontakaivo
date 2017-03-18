@@ -57,7 +57,8 @@ const well = {
 
   fillVelocity (startAt = new Date ( Date.now() - config.prediction.duration), endAt = new Date()) {
     return this.range(startAt, endAt).then((response) => {
-      let changeValues = []
+      let sum = 0;
+      let count = 0;
       let previousRow = null
 
       response.rows.forEach((row) => {
@@ -67,18 +68,15 @@ const well = {
               let value = dy/dt;
 
               if (typeof(value) === 'number' && value !== null) {
-                changeValues.push(value)
+                count++;
+                sum += value
               }
           }
           previousRow = row
       })
 
-      let total = changeValues.reduce((value, entry) => value + entry, 0)
-      let meanValue = total / changeValues.length
-
-      console.log(total, meanValue)
-
-      return changeValues
+      console.log(count, sum)
+      return count / sum
     })
   },
 
