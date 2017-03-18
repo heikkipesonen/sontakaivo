@@ -68,6 +68,7 @@ const well = {
               let value = dy/dt;
 
               if (typeof(value) === 'number' && value !== null && value !== undefined) {
+                console.log(value)
                 count++;
                 sum += value
               }
