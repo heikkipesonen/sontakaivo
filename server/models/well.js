@@ -39,13 +39,10 @@ const well = {
    * @return {Promise}
    */
   latest () {
-    return wellStatus.findAndCountAll({
-      offset: 0,
-      limit: 1,
-      attributes: {
-        exclude: 'id'
-      },
-      orderBy: 'measuredAt DESC'
+    return wellStatus.findOne({
+      attributes: [
+        [sequelize.fn('max', sequelize.col('measuredAt'), 'measuredAt']
+      ]
     })
   },
 

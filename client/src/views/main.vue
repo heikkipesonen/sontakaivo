@@ -1,7 +1,6 @@
 <template>
 <view-container>
   <div class="canvas">
-    <graph :chart-data="chartData"></graph>
   </div>
   <div class="toolbar">
     <button v-on:click="reload">
@@ -12,13 +11,11 @@
 </template>
 <script>
 import viewContainer from '../components/view'
-import graph from '../components/graph'
 import {mapActions, mapGetters} from 'vuex'
 
 export default {
   components: {
-    viewContainer,
-    graph
+    viewContainer
   },
 
   computed: {
