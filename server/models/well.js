@@ -3,6 +3,7 @@ const db = require('../db')
 const sequelize = require('sequelize')
 const wellStatus = require('./wellstatus')
 const parser = require('../helpers/parser')
+const config = require('./configurator')
 
 meter.start()
 meter.on('data', (data) => {
@@ -33,6 +34,45 @@ const well = {
       }
     })
   },
+
+  status () {
+    return this.latest().then((latest) => {
+      return this.fillVelocity().then((fillVelocity) => {
+        const total_capacity = config.well.full - config.well.empty
+        const remaining = config.well.full - latest.value
+
+        return {
+          measuredAt: latest.measuredAt,
+          value: latest.value,
+          empty: config.well.empty,
+          full: config.well.full,
+          total_capacity
+          remaining,
+          fillVelocity,
+          time_left: remaining / fillVelocity
+        }
+      })
+    })
+  },
+
+  fillVelocity (startAt = new Date(), endAt = new Date ( Date.now() - config.prediction.duration)) {
+    return this.range(startAt, endAt).then((response) => {
+      let changeValues = [];
+      let previousRow = null;
+      response.rows.forEach((row) => {
+          if (previousRow) {
+              let dy = row.value - previousRow.value
+              let dt = previousRow.measuredAt - row.measuredAt
+              changeValues.push(dt/dy)
+          }
+          previousRow = row;
+      })
+
+      let total = changeValues.reduce((value, entry) => value + entry)
+      let meanValue = total / changeValues.length
+      return meanValue
+    })
+  }
 
   /**
    * retrieve latest measurement

@@ -25,6 +25,13 @@ router.get('/latest', (req, res) => {
   })
 })
 
+router.get('/status', (req, res) => {
+  well.status().then((result) => {
+    res.status(200)
+          .json(result)
+  })
+})
+
 router.get('/day', (req, res) => {
   well.day(req.param('startAt')).then((result) => {
     res.status(200)

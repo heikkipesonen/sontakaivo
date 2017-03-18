@@ -9,6 +9,15 @@ const configurator = {
     averageValues: 50
   },
 
+  well: {
+    empty: 550,
+    full: 120
+  },
+
+  prediction: {
+    duration: 7 * 24 * 60 * 60 * 1000
+  },
+
   set (key, value) {
     config.create({
       key,
