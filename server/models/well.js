@@ -57,19 +57,17 @@ const well = {
 
   fillVelocity (startAt = new Date ( Date.now() - config.prediction.duration), endAt = new Date()) {
     return this.range(startAt, endAt).then((response) => {
-      let changeValues = [];
-      let previousRow = null;
+      let changeValues = []
+      let previousRow = null
 
-      let rows = response.rows.filter((row) => row.measuredAt > 0 && row.value > 0);
       rows.forEach((row) => {
           if (previousRow) {
               let dy = previousRow.value - row.value
               let dt = previousRow.measuredAt - row.measuredAt
-              changeValues.push(dt/dy)
+              changeValues.push(dy/dt)
           }
-          previousRow = row;
+          previousRow = row
       })
-
 
       let total = changeValues.reduce((value, entry) => value + entry, 0)
       let meanValue = total / changeValues.length
