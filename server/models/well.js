@@ -73,7 +73,7 @@ const well = {
           previousRow = row
       })
 
-      console.log(JSON.stringify(changeValues, null, ' '))
+      console.log(JSON.stringify(changeValues.filter((v) => v!==null), null, ' '))
 
       let total = changeValues.reduce((value, entry) => value + (entry ? entry : 0), 0)
       let meanValue = total / changeValues.length
