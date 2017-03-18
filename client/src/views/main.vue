@@ -1,7 +1,7 @@
 <template>
 <view-container>
   <div class="canvas">
-    <graph :rows="items"></graph>
+    <graph :chart-data="chartData"></graph>
   </div>
   <div class="toolbar">
     <button v-on:click="reload">
@@ -24,7 +24,20 @@ export default {
   computed: {
     ...mapGetters({
       items: 'chart'
-    })
+    }),
+
+    chartData () {
+      return {
+        labels: this.items ? this.items.map(() => '') : [],
+        datasets: [
+          {
+            label: 'paskaa',
+            backgroundColor: '#25bcfc',
+            data: this.items ? this.items.reverse().map((item) => item.value) : []
+          }
+        ]
+      }
+    }
   },
 
   methods: {
