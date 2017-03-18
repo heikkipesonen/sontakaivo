@@ -53,7 +53,7 @@ export default {
 
     polyline {
       opacity: 0.6;
-      stroke: #e8fffd;
+      stroke: #ffffff;
       stroke-width: 2;
       fill: transparent;
     }

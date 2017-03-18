@@ -1,4 +1,11 @@
+import api from '../api'
+
 const actions = {
+  getChart ({commit}, chartType) {
+    return api.get(`/${chartType}`).then((data) => {
+      commit('chart', data)
+    })
+  }
   /**
    * [actionName description]
    * @param  {[type]} {commit} [description]

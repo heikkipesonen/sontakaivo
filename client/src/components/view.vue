@@ -18,7 +18,7 @@ export default {
     top: 0; left: 0; right: 0; bottom: 0;
     display: flex;
     overflow: hidden;
-    @include theme('background-color', 'primary');
+    background-color: #131313;
 }
 
 .view-content {

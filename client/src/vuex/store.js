@@ -11,7 +11,7 @@ Vue.use(Vuex)
  * @type {Object}
  */
 const state = {
-
+  chart: {}
 }
 
 /* eslint-disable no-new */

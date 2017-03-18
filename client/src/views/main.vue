@@ -11,9 +11,9 @@
 </view-container>
 </template>
 <script>
-import api from '../api'
 import viewContainer from '../components/view'
 import graph from '../components/graph'
+import {mapActions, mapGetters} from 'vuex'
 
 export default {
   components: {
@@ -21,24 +21,24 @@ export default {
     graph
   },
 
-  data () {
-    return {
-      items: []
-    }
+  computed: {
+    ...mapGetters({
+      items: 'chart'
+    })
   },
 
   methods: {
+    ...mapActions([
+      'getChart'
+    ]),
+
     reload () {
-      console.log('reload')
       window.location.reload()
     }
   },
 
   created () {
-    api.get('/range').then((response) => {
-      console.log(response)
-      this.items = response.rows
-    })
+    this.getChart('range')
   }
 }
 </script>

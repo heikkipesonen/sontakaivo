@@ -8,6 +8,10 @@ const getters = {
    *  return state.something
    * }
    */
+
+  chart (store) {
+    return store.chart.rows
+  }
 }
 
 export default getters
