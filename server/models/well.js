@@ -39,7 +39,7 @@ const well = {
     return this.latest().then((latest) => {
       return this.fillVelocity().then((fillVelocity) => {
         const total_capacity = config.well.empty - config.well.full
-        const remaining = latest.value - config.well.ful
+        const remaining = latest.value - config.well.full
 
         return {
           measuredAt: latest.measuredAt,
@@ -59,10 +59,11 @@ const well = {
     return this.range(startAt, endAt).then((response) => {
       let changeValues = [];
       let previousRow = null;
-      console.log(response.rows.length)
+
       response.rows.forEach((row) => {
+        console.log(response.row)
           if (previousRow) {
-              let dy = row.value - previousRow.value
+              let dy = previousRow.value - row.value
               let dt = previousRow.measuredAt - row.measuredAt
               changeValues.push(dt/dy)
           }
