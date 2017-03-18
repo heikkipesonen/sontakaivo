@@ -41,7 +41,8 @@ const well = {
   latest () {
     return wellStatus.findOne({
       attributes: [
-        [sequelize.fn('max', sequelize.col('measuredAt')), 'measuredAt']
+        [sequelize.fn('max', sequelize.col('measuredAt')), 'measuredAt'],
+        'value'
       ]
     })
   },
