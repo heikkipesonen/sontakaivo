@@ -55,7 +55,7 @@ const well = {
     })
   },
 
-  fillVelocity (startAt = new Date(), endAt = new Date ( Date.now() - config.prediction.duration)) {
+  fillVelocity (startAt = new Date ( Date.now() - config.prediction.duration), endAt = new Date()) {
     return this.range(startAt, endAt).then((response) => {
       let changeValues = [];
       let previousRow = null;
@@ -68,7 +68,7 @@ const well = {
           previousRow = row;
       })
 
-      let total = changeValues.reduce((value, entry) => value + entry)
+      let total = changeValues.reduce((value, entry) => value + entry, 0)
       let meanValue = total / changeValues.length
       return meanValue
     })
