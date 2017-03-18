@@ -71,8 +71,10 @@ const well = {
       console.log( changeValues.filter((value) => typeof(value) !== 'number') )
       let total = changeValues.reduce((value, entry) => {
         if (typeof(entry) === 'number' && entry !== Infinity) {
-          value + entry
+          return value + entry
         }
+
+        return value
       }, 0)
       let meanValue = total / changeValues.length
 
