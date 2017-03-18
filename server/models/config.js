@@ -19,4 +19,4 @@ const config = db.define('config', {
   timestamps: false
 });
 
-module.exports = wellStatus;
+module.exports = config;
