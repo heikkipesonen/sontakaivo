@@ -64,14 +64,18 @@ const well = {
           if (previousRow) {
               let dy = previousRow.value - row.value
               let dt = row.measuredAt - previousRow.measuredAt
-              changeValues.push(dy/dt)
+              let value = dy/dt;
+
+              if (typeof(value) === 'number') {
+                changeValues.push(value)
+              }
           }
           previousRow = row
       })
 
-      let total = changeValues.reduce((value, entry) => {
-        return entry === null ? value : value + entry
-      }, 0)
+      console.log(JSON.stringify(changeValues, null, ' '))
+
+      let total = changeValues.reduce((value, entry) => value + entry, 0)
       let meanValue = total / changeValues.length
 
       console.log(total, meanValue)
