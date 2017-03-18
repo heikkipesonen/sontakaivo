@@ -46,7 +46,7 @@ const well = {
           value: latest.value,
           empty: config.well.empty,
           full: config.well.full,
-          total_capacity
+          total_capacity,
           remaining,
           fillVelocity,
           time_left: remaining / fillVelocity
