@@ -48,8 +48,8 @@ const well = {
           full: config.well.full,
           total_capacity,
           remaining,
-          fillVelocity,
-          time_remaining: remaining / fillVelocity
+          fillVelocity
+          // time_remaining: remaining / fillVelocity
         }
       })
     })
@@ -66,21 +66,19 @@ const well = {
               let dt = row.measuredAt - previousRow.measuredAt
               let value = dy/dt;
 
-              if (typeof(value) === 'number') {
-                changeValues.push(value)
-              }
+              changeValues.push(value)
           }
           previousRow = row
       })
 
       console.log(JSON.stringify(changeValues.filter((v) => v!==null), null, ' '))
 
-      let total = changeValues.reduce((value, entry) => value + (entry ? entry : 0), 0)
+      let total = changeValues.reduce((value, entry) => value + entry, 0)
       let meanValue = total / changeValues.length
 
       console.log(total, meanValue)
 
-      return meanValue
+      return changeValues
     })
   },
 
