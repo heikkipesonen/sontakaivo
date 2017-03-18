@@ -64,7 +64,9 @@ const well = {
           if (previousRow) {
               let dy = previousRow.value - row.value
               let dt = row.measuredAt - previousRow.measuredAt
-              changeValues.push(dy/dt)
+              if (dy !== null && dt !== null) {
+                changeValues.push(dy/dt)
+              }
           }
           previousRow = row
       })
