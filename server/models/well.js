@@ -39,7 +39,7 @@ const well = {
     return this.latest().then((latest) => {
       return this.fillVelocity().then((fillVelocity) => {
         const total_capacity = config.well.empty - config.well.full
-        const remaining = config.well.empty - latest.value
+        const remaining = latest.value - config.well.ful
 
         return {
           measuredAt: latest.measuredAt,
