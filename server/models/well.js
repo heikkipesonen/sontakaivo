@@ -68,14 +68,10 @@ const well = {
           }
           previousRow = row
       })
-      console.log( changeValues.filter((value) => typeof(value) !== 'number') )
-      let total = changeValues.reduce((value, entry) => {
-        if (typeof(entry) === 'number' && entry !== Infinity) {
-          return value + entry
-        }
 
-        return value
-      }, 0)
+      console.log(JSON.stringify(changeValues, null, ' '))
+
+      let total = changeValues.reduce((value, entry) => value + entry, 0)
       let meanValue = total / changeValues.length
 
       console.log(total, meanValue)
