@@ -143,12 +143,12 @@ const meter = {
     start () {
       meter.stopped = false;
       meter.readValue();
-      meter._timer = setTimeout(meter.readValue, config.meterInterval);
+      meter._timer = setInterval(meter.readValue, config.meterInterval);
     },
 
     stop () {
       meter.stopped = true;
-      clearTimeout(meter._timer);
+      clearInterval(meter._timer);
     },
 
     read: readValues,
@@ -158,11 +158,6 @@ const meter = {
         meter.close();
         meter.data = data;
         fire('data', data);
-
-        if (!meter.stopped) {
-          meter.start();
-        }
-
         return meter.data;
       });
     },
