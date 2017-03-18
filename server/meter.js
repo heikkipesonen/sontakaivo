@@ -14,7 +14,7 @@ const port = new SerialPort('/dev/ttyAMA0', options, (error) => console.log(erro
 
 const dataHandler = {
     maxEntries: 100,
-    
+
     listener: null,
 
     reading: false,
@@ -22,18 +22,19 @@ const dataHandler = {
     /**
      * called when serialport receives data
      * data is then parsed as numeric values and listener is called with
-     * @param {buffer} buffer 
+     * @param {buffer} buffer
      * @returns {void}
      */
     data (buffer) {
-        if (this.listener) {            
+      console.log(buffer)
+        if (this.listener) {
             let data = [];
             for (let i = 0; i < buffer.length; i++) {
                 data.push(String.fromCharCode(buffer[i]));
             }
-            
+
             if (data[0] === 'R' && data[data.length-1] === '\r') {
-                let value = parseInt( data.join('').replace('R', '').replace('\r', '') );                
+                let value = parseInt( data.join('').replace('R', '').replace('\r', '') );
                 this.listener({
                     timeStamp: Date.now(),
                     value
@@ -44,7 +45,7 @@ const dataHandler = {
 
     /**
      * listen until desired number of events has been received
-     * @param {number} count 
+     * @param {number} count
      * @returns {Promise}
      */
     listen (count) {
@@ -57,10 +58,10 @@ const dataHandler = {
         const reading = new Promise((resolve, reject) => {
             const result = [];
             self.listener = function (data) {
-                result.push(data);          
+                result.push(data);
                 if (result.length >= count || result.length >= self.maxEntries) {
                     self.listener = null;
-                    self.reading = null;                    
+                    self.reading = null;
                     resolve(result);
                 }
             }
@@ -77,13 +78,13 @@ const dataHandler = {
  */
 const open = () => {
     if (!meter.active) {
-        meter.active = new Promise((resolve, reject) => {            
+        meter.active = new Promise((resolve, reject) => {
             rpio.write(12, rpio.HIGH);
             meter.active = true;
             setTimeout(resolve, 3000);
         });
     }
-    
+
     return meter.active;
 }
 
@@ -101,7 +102,7 @@ const close = () => {
 
 /**
  * read values from sensor
- * @param {number} values 
+ * @param {number} values
  */
 const readValues = (values = 10) => {
     return dataHandler.listen(values);
@@ -134,7 +135,7 @@ const meter = {
 
     // timer id
     _interval: null,
-    
+
     // last received data
     data: null,
 
@@ -155,22 +156,22 @@ const meter = {
             meter.data = data;
             fire('data', data);
             return meter.data;
-        });        
+        });
     },
 
     /**
      * read multiple values from sensor and resolve with single
      * average value
-     * @param {number} count 
+     * @param {number} count
      * @returns {Promise}
      */
     readAverage (count = 50) {
-        return new Promise((resolve, reject) => {            
+        return new Promise((resolve, reject) => {
             open().then(() => {
                 readValues(count).then((response) => {
                     // first few values are inaccurate
                     // so half of the results are discarded
-                    response.splice(Math.floor(response.length/2) - 1, Math.ceil(response.length/2));                    
+                    response.splice(Math.floor(response.length/2) - 1, Math.ceil(response.length/2));
                     const average = response.reduce((sum, reading) => sum + reading.value, 0) / response.length;
                     let endTime = response[response.length-1].timeStamp;
                     let startTime = response[0].timeStamp;
