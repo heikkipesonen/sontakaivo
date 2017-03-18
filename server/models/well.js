@@ -49,7 +49,7 @@ const well = {
           total_capacity,
           remaining,
           fillVelocity
-          // time_remaining: remaining / fillVelocity
+          time_remaining: fillVelocity > 0 ? remaining / fillVelocity : null
         }
       })
     })
