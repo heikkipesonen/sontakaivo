@@ -46,7 +46,7 @@ const well = {
       attributes: {
         exclude: 'id'
       },
-      orderBy: 'measuredAt ASC'
+      orderBy: 'measuredAt DESC'
     });
   },
 
@@ -78,7 +78,7 @@ const well = {
             $lte: endAt
           }
         },
-        order: 'measuredAt ASC'
+        order: 'measuredAt DESC'
       })
     );
   },
