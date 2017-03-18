@@ -9,10 +9,6 @@ const configurator = {
     averageValues: 50
   },
 
-  meterInterval: 1000 * 60,
-  meterPin: 12,
-  meterAverageValues: 50,
-
   set (key, value) {
     config.create({
       key,
