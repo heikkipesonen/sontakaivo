@@ -1,14 +1,31 @@
 <template>
 <svg width="100%" height="100%">
-  <polyline :points="points"></polyline>
+  <path :d="path"></path>
 </svg>
 </template>
 <script>
+import {fitCurve} from '../utils/fitcurves'
+
 export default {
   props: {
     rows: {
       type: Array,
-      default: []
+      default: () => []
+    },
+
+    max: {
+      type: Number,
+      default: 765
+    },
+
+    min: {
+      type: Number,
+      default: 0
+    },
+
+    curveTolerance: {
+      type: Number,
+      default: 10
     }
   },
 
@@ -20,10 +37,6 @@ export default {
   },
 
   computed: {
-    max () {
-      return this.rows.reduce((max, row) => row.value > max ? row.value : max, 0) * 1.2
-    },
-
     count () {
       return this.rows.length - 1
     },
@@ -31,11 +44,22 @@ export default {
     points () {
       let xfactor = this.width / this.count
       let yfactor = this.height / this.max
-      let yoffset = this.height * 0.1
 
       return this.rows.reverse().map((row, index) => {
-        return `${index * xfactor},${this.height - (row.value * yfactor) - yoffset}`
-      }).join(' ')
+        return [
+          index * xfactor,
+          this.height - (row.value * yfactor)
+        ]
+      })
+    },
+
+    path () {
+      if (!this.points.length) return ''
+      return fitCurve(this.points, this.curveTolerance).map((curve) => {
+        let m = curve.slice(0, 1)
+        let c = curve.slice(1)
+        return 'M' + m.join(' ') + ' C ' + c.map((cc) => cc.join(' ')).join(',')
+      })
     }
   },
 
@@ -51,10 +75,20 @@ export default {
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
 
-    polyline {
+    polyline, line, path {
       opacity: 0.6;
       stroke: #ffffff;
       stroke-width: 2;
+      fill: transparent;
+    }
+
+    line {
+      opacity: 0.3;
+    }
+
+    circle {
+      r: 5;
+      stroke: #d00;
       fill: transparent;
     }
   }

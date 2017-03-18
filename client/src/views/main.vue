@@ -38,7 +38,10 @@ export default {
   },
 
   created () {
-    this.getChart('range')
+    this.getChart({
+      type: 'range',
+      limit: 200
+    })
   }
 }
 </script>
