@@ -8,7 +8,7 @@ const router = require('./router');
 const meter = require('./meter');
 const fs = require('fs');
 const db = require('./db');
-const wellStatus = require('./models/wellstatus');
+const models = require('./models');
 
 db.sync({
     // force: true
