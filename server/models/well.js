@@ -68,11 +68,11 @@ const well = {
           }
           previousRow = row
       })
-
+      console.log( changeValues.filter((value) => typeof(value) !== number) )
       let total = changeValues.reduce((value, entry) => value + entry, 0)
       let meanValue = total / changeValues.length
 
-      console.log(changeValues, total,meanValue)
+      console.log(total, meanValue)
 
       return meanValue
     })
