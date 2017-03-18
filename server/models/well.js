@@ -75,7 +75,7 @@ const well = {
 
       console.log(JSON.stringify(changeValues, null, ' '))
 
-      let total = changeValues.reduce((value, entry) => value + entry, 0)
+      let total = changeValues.reduce((value, entry) => value + (entry ? entry : 0), 0)
       let meanValue = total / changeValues.length
 
       console.log(total, meanValue)
