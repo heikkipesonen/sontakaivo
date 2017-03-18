@@ -64,14 +64,17 @@ const well = {
           if (previousRow) {
               let dy = previousRow.value - row.value
               let dt = previousRow.measuredAt - row.measuredAt
-              console.log(row.value, row.measuredAt);
               changeValues.push(dt/dy)
           }
           previousRow = row;
       })
 
+
       let total = changeValues.reduce((value, entry) => value + entry, 0)
       let meanValue = total / changeValues.length
+
+      console.log(changeValues, total,meanValue)
+
       return meanValue
     })
   },
