@@ -143,7 +143,7 @@ const meter = {
     start () {
       meter.stopped = false;
       meter.readValue();
-      meter._timer = setInterval(meter.readValue, config.meterInterval);
+      meter._timer = setInterval(meter.readValue, config.meter.interval);
     },
 
     stop () {
