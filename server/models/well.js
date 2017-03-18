@@ -65,10 +65,9 @@ const well = {
           if (previousRow) {
               let dy = previousRow.value - row.value
               let dt = row.measuredAt - previousRow.measuredAt
-              let value = dy/dt;
+              let value = dt > 0 ? dy/dt : 0;
 
-              if (typeof(value) === 'number' && value !== null && value !== undefined) {
-                console.log(value)
+              if (isFinite(value)) {
                 count++;
                 sum += value
               }
