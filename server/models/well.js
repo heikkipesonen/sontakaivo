@@ -48,7 +48,7 @@ const well = {
           high_level: config.well.high,
           total_capacity,
           remaining,
-          fillVelocity
+          fillVelocity,
           time_remaining: fillVelocity > 0 ? remaining / fillVelocity : null
         }
       })
