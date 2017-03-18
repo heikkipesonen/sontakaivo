@@ -64,7 +64,7 @@ const well = {
       response.rows.forEach((row) => {
           if (previousRow) {
               let dy = previousRow.value - row.value
-              let dt = row.measuredAt - previousRow.measuredAt
+              let dt = (row.measuredAt - previousRow.measuredAt) / 60 / 60 / 1000
               let value = dt > 0 ? dy/dt : 0;
 
               if (isFinite(value)) {
