@@ -1,5 +1,5 @@
-const Sequelize = require('sequelize');
-const db = require('../db');
+const Sequelize = require('sequelize')
+const db = require('../db')
 
 const config = db.define('config', {
   id: {
@@ -17,6 +17,6 @@ const config = db.define('config', {
   }
 }, {
   timestamps: false
-});
+})
 
-module.exports = config;
+module.exports = config

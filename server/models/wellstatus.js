@@ -1,11 +1,11 @@
-const Sequelize = require('sequelize');
-const db = require('../db');
+const Sequelize = require('sequelize')
+const db = require('../db')
 
 const wellStatus = db.define('wellstatus', {
   id: {
     type: Sequelize.INTEGER,
     autoIncrement: true,
-    primaryKey: true    
+    primaryKey: true
   },
   value: {
     type: Sequelize.INTEGER,
@@ -16,11 +16,11 @@ const wellStatus = db.define('wellstatus', {
     defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
     allowNull: false,
     get () {
-      return Date.parse(this.getDataValue('measuredAt')).valueOf();
+      return Date.parse(this.getDataValue('measuredAt')).valueOf()
     }
   }
 }, {
-  timestamps: false  
-});
+  timestamps: false
+})
 
-module.exports = wellStatus;
+module.exports = wellStatus

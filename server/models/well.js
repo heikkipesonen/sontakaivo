@@ -1,15 +1,15 @@
-const meter = require('../meter');
-const db = require('../db');
-const sequelize = require('sequelize');
-const wellStatus = require('./wellstatus');
-const parser = require('../helpers/parser');
+const meter = require('../meter')
+const db = require('../db')
+const sequelize = require('sequelize')
+const wellStatus = require('./wellstatus')
+const parser = require('../helpers/parser')
 
-meter.start();
+meter.start()
 meter.on('data', (data) => {
   wellStatus.create({
     value: meter.data.value
-  });
-});
+  })
+})
 
 const well = {
   /**
@@ -31,7 +31,7 @@ const well = {
         rows: data.rows,
         count: data.count
       }
-    });
+    })
   },
 
   /**
@@ -46,7 +46,7 @@ const well = {
         exclude: 'id'
       },
       orderBy: 'measuredAt DESC'
-    });
+    })
   },
 
   /**
@@ -58,11 +58,11 @@ const well = {
    * @return {Promise}
    */
   range (startAt, endAt, offset = 0, limit) {
-    offset = parser.number(offset);
-    limit = parser.number(limit);
+    offset = parser.number(offset)
+    limit = parser.number(limit)
 
-    startAt = startAt ? parser.date(startAt) : new Date( Date.now() - 24 * 60 * 60 * 1000 );
-    endAt = endAt ? parser.date(endAt) : new Date();
+    startAt = startAt ? parser.date(startAt) : new Date(Date.now() - 24 * 60 * 60 * 1000)
+    endAt = endAt ? parser.date(endAt) : new Date()
 
     return this._respond(startAt, endAt, offset, limit,
       wellStatus.findAndCountAll({
@@ -79,7 +79,7 @@ const well = {
         },
         order: 'measuredAt DESC'
       })
-    );
+    )
   },
 
   /**
@@ -89,8 +89,8 @@ const well = {
    * @return {Promise}
    */
   day (day = new Date()) {
-    const startAt = parser.startOf(day);
-    const endAt = parser.endOf(day);
+    const startAt = parser.startOf(day)
+    const endAt = parser.endOf(day)
 
     return this._respond(startAt, endAt, 0, 0,
       wellStatus.findAndCountAll({
@@ -104,7 +104,7 @@ const well = {
             $lte: endAt
           }
         }
-      }));
+      }))
   },
 
   /**
@@ -113,17 +113,17 @@ const well = {
    * @return {Promise}
    */
   month (date = new Date()) {
-    const startAt = parser.startOf(date, 'month');
-    const endAt = parser.endOf(date, 'month');
+    const startAt = parser.startOf(date, 'month')
+    const endAt = parser.endOf(date, 'month')
 
-    let queryDays = [];
-    let iterator = new Date(startAt.valueOf());
+    let queryDays = []
+    let iterator = new Date(startAt.valueOf())
     while (iterator.getMonth() === startAt.getMonth()) {
-      queryDays.push(new Date(iterator.valueOf()));
-      iterator.setDate(iterator.getDate() + 1);
+      queryDays.push(new Date(iterator.valueOf()))
+      iterator.setDate(iterator.getDate() + 1)
     }
 
-    const promises = queryDays.map((day) => this.day(day));
+    const promises = queryDays.map((day) => this.day(day))
 
     return this._respond(startAt, endAt, null, null, Promise.all(promises).then((days) => {
       return {
@@ -132,8 +132,8 @@ const well = {
           .filter((day) => day.rows.length > 0)
           .map((day) => day.rows))
       }
-    }));
+    }))
   }
 }
 
-module.exports = well;
+module.exports = well

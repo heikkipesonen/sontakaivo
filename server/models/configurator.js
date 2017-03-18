@@ -1,5 +1,5 @@
-const config = require('./config');
-const server = require('../server');
+const config = require('./config')
+const server = require('../server')
 
 const configurator = {
 
@@ -19,4 +19,4 @@ const configurator = {
   }
 }
 
-module.exports = configurator;
+module.exports = configurator

@@ -1,24 +1,24 @@
-const _ = require('lodash');
-const rpio = require('rpio');
-const SerialPort = require('serialport');
-const config = require('./models/configurator');
+const _ = require('lodash')
+const rpio = require('rpio')
+const SerialPort = require('serialport')
+const config = require('./models/configurator')
 
 const options = {
-    baudRate: 9600,
-    dataBits: 8,
-    stopBits: 1,
-    parity: 'none'
-};
+  baudRate: 9600,
+  dataBits: 8,
+  stopBits: 1,
+  parity: 'none'
+}
 
-rpio.open(config.meter.controlPin, rpio.OUTPUT, rpio.LOW);
-const port = new SerialPort('/dev/ttyAMA0', options, (error) => console.log(error));
+rpio.open(config.meter.controlPin, rpio.OUTPUT, rpio.LOW)
+const port = new SerialPort('/dev/ttyAMA0', options, (error) => console.log(error))
 
 const dataHandler = {
-    maxEntries: 100,
+  maxEntries: 100,
 
-    listener: null,
+  listener: null,
 
-    reading: false,
+  reading: false,
 
     /**
      * called when serialport receives data
@@ -26,50 +26,50 @@ const dataHandler = {
      * @param {buffer} buffer
      * @returns {void}
      */
-    data (buffer) {
-        if (this.listener) {
-            let data = [];
-            for (let i = 0; i < buffer.length; i++) {
-                data.push(String.fromCharCode(buffer[i]));
-            }
+  data (buffer) {
+    if (this.listener) {
+      let data = []
+      for (let i = 0; i < buffer.length; i++) {
+        data.push(String.fromCharCode(buffer[i]))
+      }
 
-            if (data[0] === 'R' && data[data.length-1] === '\r') {
-                let value = parseInt( data.join('').replace('R', '').replace('\r', '') );
-                this.listener({
-                    timeStamp: Date.now(),
-                    value
-                });
-            }
-        }
-    },
+      if (data[0] === 'R' && data[data.length - 1] === '\r') {
+        let value = parseInt(data.join('').replace('R', '').replace('\r', ''))
+        this.listener({
+          timeStamp: Date.now(),
+          value
+        })
+      }
+    }
+  },
 
     /**
      * listen until desired number of events has been received
      * @param {number} count
      * @returns {Promise}
      */
-    listen (count) {
-        const self = dataHandler;
+  listen (count) {
+    const self = dataHandler
 
-        if (self.reading) {
-            return self.reading;
-        }
-
-        const reading = new Promise((resolve, reject) => {
-            const result = [];
-            self.listener = function (data) {
-                result.push(data);
-                if (result.length >= count || result.length >= self.maxEntries) {
-                    self.listener = null;
-                    self.reading = null;
-                    resolve(result);
-                }
-            }
-        });
-
-        self.reading = reading;
-        return reading;
+    if (self.reading) {
+      return self.reading
     }
+
+    const reading = new Promise((resolve, reject) => {
+      const result = []
+      self.listener = function (data) {
+        result.push(data)
+        if (result.length >= count || result.length >= self.maxEntries) {
+          self.listener = null
+          self.reading = null
+          resolve(result)
+        }
+      }
+    })
+
+    self.reading = reading
+    return reading
+  }
 }
 
 /**
@@ -77,15 +77,15 @@ const dataHandler = {
  * @returns {Promise}
  */
 const open = () => {
-    if (!meter.active) {
-        meter.active = new Promise((resolve, reject) => {
-            rpio.write(config.meter.controlPin, rpio.HIGH);
-            meter.active = true;
-            setTimeout(resolve, 3000);
-        });
-    }
+  if (!meter.active) {
+    meter.active = new Promise((resolve, reject) => {
+      rpio.write(config.meter.controlPin, rpio.HIGH)
+      meter.active = true
+      setTimeout(resolve, 3000)
+    })
+  }
 
-    return meter.active;
+  return meter.active
 }
 
 /**
@@ -93,11 +93,11 @@ const open = () => {
  * @returns {Promise}
  */
 const close = () => {
-    return new Promise((resolve, reject) => {
-        rpio.write(config.meter.controlPin, rpio.LOW);
-        meter.active = false;
-        setTimeout(resolve, 1);
-    });
+  return new Promise((resolve, reject) => {
+    rpio.write(config.meter.controlPin, rpio.LOW)
+    meter.active = false
+    setTimeout(resolve, 1)
+  })
 }
 
 /**
@@ -105,62 +105,62 @@ const close = () => {
  * @param {number} values
  */
 const readValues = (values = 10) => {
-    return dataHandler.listen(values);
+  return dataHandler.listen(values)
 }
 
 port.on('open', function (evt) {
-    port.on('data', (data) => dataHandler.data(data));
-});
+  port.on('data', (data) => dataHandler.data(data))
+})
 
-const listeners = {};
+const listeners = {}
 const fire = function (event) {
-    if (listeners[event]) {
-        listeners[event].forEach((callback) => {
-            callback(meter);
-        });
-    }
+  if (listeners[event]) {
+    listeners[event].forEach((callback) => {
+      callback(meter)
+    })
+  }
 }
 
 const meter = {
     // power on for sensor
-    open,
+  open,
 
     // power off
-    close,
+  close,
 
     // sensor status
-    active: false,
+  active: false,
 
-    listeners: {},
+  listeners: {},
 
     // timer id
-    _timer: null,
-    stopped: false,
+  _timer: null,
+  stopped: false,
 
     // last received data
-    data: null,
+  data: null,
 
-    start () {
-      meter.stopped = false;
-      meter.readValue();
-      meter._timer = setInterval(meter.readValue, config.meter.interval);
-    },
+  start () {
+    meter.stopped = false
+    meter.readValue()
+    meter._timer = setInterval(meter.readValue, config.meter.interval)
+  },
 
-    stop () {
-      meter.stopped = true;
-      clearInterval(meter._timer);
-    },
+  stop () {
+    meter.stopped = true
+    clearInterval(meter._timer)
+  },
 
-    read: readValues,
+  read: readValues,
 
-    readValue () {
-      return meter.readAverage().then((data) => {
-        meter.close();
-        meter.data = data;
-        fire('data', data);
-        return meter.data;
-      });
-    },
+  readValue () {
+    return meter.readAverage().then((data) => {
+      meter.close()
+      meter.data = data
+      fire('data', data)
+      return meter.data
+    })
+  },
 
     /**
      * read multiple values from sensor and resolve with single
@@ -168,34 +168,34 @@ const meter = {
      * @param {number} count
      * @returns {Promise}
      */
-    readAverage (count = config.meter.averageValues) {
-        return new Promise((resolve, reject) => {
-            open().then(() => {
-                readValues(count).then((response) => {
+  readAverage (count = config.meter.averageValues) {
+    return new Promise((resolve, reject) => {
+      open().then(() => {
+        readValues(count).then((response) => {
                     // first few values are inaccurate
                     // so half of the results are discarded
-                    response.splice(Math.floor(response.length/2) - 1, Math.ceil(response.length/2));
-                    const average = response.reduce((sum, reading) => sum + reading.value, 0) / response.length;
-                    let endTime = response[response.length-1].timeStamp;
-                    let startTime = response[0].timeStamp;
+          response.splice(Math.floor(response.length / 2) - 1, Math.ceil(response.length / 2))
+          const average = response.reduce((sum, reading) => sum + reading.value, 0) / response.length
+          let endTime = response[response.length - 1].timeStamp
+          let startTime = response[0].timeStamp
 
-                    resolve({
-                        startTime,
-                        endTime,
-                        duration: endTime - startTime,
-                        value: Math.ceil(average)
-                    });
-                });
-            });
-        });
-    },
+          resolve({
+            startTime,
+            endTime,
+            duration: endTime - startTime,
+            value: Math.ceil(average)
+          })
+        })
+      })
+    })
+  },
 
-    on (event, callback) {
-        if (!listeners[event]) {
-            listeners[event] = [];
-        }
-        listeners[event].push(callback);
+  on (event, callback) {
+    if (!listeners[event]) {
+      listeners[event] = []
     }
-};
+    listeners[event].push(callback)
+  }
+}
 
-module.exports = meter;
+module.exports = meter
