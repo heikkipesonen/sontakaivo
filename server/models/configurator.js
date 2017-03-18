@@ -10,8 +10,8 @@ const configurator = {
   },
 
   well: {
-    empty: 550,
-    full: 120
+    low: 550,
+    high: 120
   },
 
   prediction: {

@@ -38,14 +38,14 @@ const well = {
   status () {
     return this.latest().then((latest) => {
       return this.fillVelocity().then((fillVelocity) => {
-        const total_capacity = config.well.empty - config.well.full
-        const remaining = latest.value - config.well.full
+        const total_capacity = config.well.low - config.well.high
+        const remaining = latest.value - config.well.high
 
         return {
           measuredAt: latest.measuredAt,
           value: latest.value,
-          empty: config.well.empty,
-          full: config.well.full,
+          low_level: config.well.low,
+          high_level: config.well.high,
           total_capacity,
           remaining,
           fillVelocity
