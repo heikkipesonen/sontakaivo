@@ -75,8 +75,7 @@ const well = {
           previousRow = row
       })
 
-      console.log(count, sum)
-      return count / sum
+      return sum / count
     })
   },
 
