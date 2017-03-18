@@ -1,6 +1,8 @@
 const _ = require('lodash');
 const rpio = require('rpio');
 const SerialPort = require('serialport');
+const config = require('./models/configurator');
+
 const options = {
     baudRate: 9600,
     dataBits: 8,
@@ -8,7 +10,7 @@ const options = {
     parity: 'none'
 };
 
-rpio.open(12, rpio.OUTPUT, rpio.LOW);
+rpio.open(config.meter.controlPin, rpio.OUTPUT, rpio.LOW);
 const port = new SerialPort('/dev/ttyAMA0', options, (error) => console.log(error));
 
 const dataHandler = {
@@ -77,7 +79,7 @@ const dataHandler = {
 const open = () => {
     if (!meter.active) {
         meter.active = new Promise((resolve, reject) => {
-            rpio.write(12, rpio.HIGH);
+            rpio.write(config.meter.controlPin, rpio.HIGH);
             meter.active = true;
             setTimeout(resolve, 3000);
         });
@@ -92,7 +94,7 @@ const open = () => {
  */
 const close = () => {
     return new Promise((resolve, reject) => {
-        rpio.write(12, rpio.LOW);
+        rpio.write(config.meter.controlPin, rpio.LOW);
         meter.active = false;
         setTimeout(resolve, 1);
     });
@@ -132,29 +134,37 @@ const meter = {
     listeners: {},
 
     // timer id
-    _interval: null,
+    _timer: null,
+    stopped: false,
 
     // last received data
     data: null,
 
     start () {
-        meter.readValue();
-        meter._interval = setInterval(meter.readValue, 1000 * 60);
+      meter.stopped = false;
+      meter.readValue();
+      meter._timer = setTimeout(meter.readValue, config.meterInterval);
     },
 
     stop () {
-        clearInterval(meter._interval);
+      meter.stopped = true;
+      clearTimeout(meter._timer);
     },
 
     read: readValues,
 
     readValue () {
-        return meter.readAverage().then((data) => {
-            meter.close();
-            meter.data = data;
-            fire('data', data);
-            return meter.data;
-        });
+      return meter.readAverage().then((data) => {
+        meter.close();
+        meter.data = data;
+        fire('data', data);
+
+        if (!meter.stopped) {
+          meter.start();
+        }
+
+        return meter.data;
+      });
     },
 
     /**
@@ -163,7 +173,7 @@ const meter = {
      * @param {number} count
      * @returns {Promise}
      */
-    readAverage (count = 50) {
+    readAverage (count = config.meter.averageValues) {
         return new Promise((resolve, reject) => {
             open().then(() => {
                 readValues(count).then((response) => {

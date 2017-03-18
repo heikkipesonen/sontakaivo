@@ -12,7 +12,6 @@ meter.on('data', (data) => {
 });
 
 const well = {
-
   /**
    * buld response
    * @param  {Date} startAt
