@@ -9,10 +9,8 @@ const mutations = {
    * }
    */
 
-  chart (state, data) {
-    console.log(data)
-    console.log(state)
-    state.chart = data
+  status (state, data) {
+    state.status = data
   }
 }
 

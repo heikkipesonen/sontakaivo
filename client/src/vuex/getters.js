@@ -9,8 +9,8 @@ const getters = {
    * }
    */
 
-  chart (store) {
-    return store.chart.rows
+  status (store) {
+    return store.status
   }
 }
 

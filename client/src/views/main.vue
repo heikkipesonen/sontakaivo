@@ -19,9 +19,9 @@ export default {
   },
 
   computed: {
-    ...mapGetters({
-      items: 'chart'
-    }),
+    ...mapGetters([
+      'status'
+    ]),
 
     chartData () {
       return {
@@ -39,7 +39,7 @@ export default {
 
   methods: {
     ...mapActions([
-      'getChart'
+      'getStatus'
     ]),
 
     reload () {
@@ -48,10 +48,7 @@ export default {
   },
 
   created () {
-    this.getChart({
-      type: 'range',
-      limit: 200
-    })
+    this.getStatus().then((status) => console.log(status))
   }
 }
 </script>

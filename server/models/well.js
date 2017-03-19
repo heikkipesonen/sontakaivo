@@ -37,42 +37,38 @@ const well = {
 
   status () {
     return this.latest().then((latest) => {
-      return this.fillVelocity().then((fillVelocity) => {
-        const total_capacity = config.well.low - config.well.high
-        const remaining = latest.value - config.well.high
+      const total_capacity = config.well.low - config.well.high
+      const remaining = latest.value - config.well.high
 
-        return {
-          measuredAt: latest.measuredAt,
-          value: latest.value,
-          low_level: config.well.low,
-          high_level: config.well.high,
-          total_capacity,
-          remaining,
-          fillVelocity,
-          time_remaining: fillVelocity > 0 ? remaining / fillVelocity : null
-        }
-      })
+      return {
+        measuredAt: latest.measuredAt,
+        value: latest.value,
+        low_level: config.well.low,
+        high_level: config.well.high,
+        total_capacity,
+        remaining
+      }
     })
   },
 
-  fillVelocity (startAt = new Date ( Date.now() - config.prediction.duration), endAt = new Date()) {
+  fillVelocity (startAt = new Date(Date.now() - config.prediction.duration), endAt = new Date()) {
     return this.range(startAt, endAt).then((response) => {
-      let sum = 0;
-      let count = 0;
+      let sum = 0
+      let count = 0
       let previousRow = null
 
       response.rows.forEach((row) => {
-          if (previousRow) {
-              let dy = previousRow.value - row.value
-              let dt = (row.measuredAt - previousRow.measuredAt) / 60 / 60 / 1000
-              let value = dt > 0 ? dy/dt : 0;
+        if (previousRow) {
+          let dy = previousRow.value - row.value
+          let dt = (row.measuredAt - previousRow.measuredAt) / 60 / 60 / 1000
+          let value = dt > 0 ? dy / dt : 0
 
-              if (isFinite(value)) {
-                count++;
-                sum += value
-              }
+          if (isFinite(value)) {
+            count++
+            sum += value
           }
-          previousRow = row
+        }
+        previousRow = row
       })
 
       return sum / count

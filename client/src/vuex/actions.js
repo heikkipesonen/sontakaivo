@@ -1,9 +1,9 @@
 import api from '../api'
 
 const actions = {
-  getChart ({commit}, {type, limit}) {
-    return api.get(`/${type}?limit=${limit}`).then((data) => {
-      commit('chart', data)
+  getStatus ({commit}) {
+    return api.get('/status').then((data) => {
+      commit('status', data)
     })
   }
   /**
