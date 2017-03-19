@@ -83,7 +83,10 @@ const well = {
   latest () {
     return wellStatus.findOne({
       order: 'measuredAt DESC',
-      limit: 1
+      limit: 1,
+      attributes: {
+        exclude: 'id'
+      }
     })
   },
 
