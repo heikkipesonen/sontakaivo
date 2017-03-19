@@ -1,6 +1,7 @@
 <template>
 <view-container>
   <div class="canvas">
+    <status v-if="status" :data="status"></status>
   </div>
   <div class="toolbar">
     <button v-on:click="reload">
@@ -11,30 +12,19 @@
 </template>
 <script>
 import viewContainer from '../components/view'
+import status from '../components/status'
 import {mapActions, mapGetters} from 'vuex'
 
 export default {
   components: {
-    viewContainer
+    viewContainer,
+    status
   },
 
   computed: {
     ...mapGetters([
       'status'
-    ]),
-
-    chartData () {
-      return {
-        labels: this.items ? this.items.map(() => '') : [],
-        datasets: [
-          {
-            label: 'paskaa',
-            backgroundColor: '#25bcfc',
-            data: this.items ? this.items.reverse().map((item) => item.value) : []
-          }
-        ]
-      }
-    }
+    ])
   },
 
   methods: {
@@ -48,7 +38,11 @@ export default {
   },
 
   created () {
-    this.getStatus().then((status) => console.log(status))
+    this.getStatus().then(() => {
+      setInterval(() => {
+        this.getStatus()
+      }, 5000)
+    })
   }
 }
 </script>
