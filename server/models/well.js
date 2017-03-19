@@ -45,6 +45,7 @@ const well = {
         value: latest.value,
         low_level: config.well.low,
         high_level: config.well.high,
+        current_level: value - config.well.low,
         total_capacity,
         remaining
       }

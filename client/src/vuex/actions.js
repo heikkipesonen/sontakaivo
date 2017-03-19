@@ -4,6 +4,7 @@ const actions = {
   getStatus ({commit}) {
     return api.get('/status').then((data) => {
       commit('status', data)
+      return data
     })
   }
   /**
