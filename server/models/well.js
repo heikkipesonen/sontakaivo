@@ -81,11 +81,9 @@ const well = {
    * @return {Promise}
    */
   latest () {
-    return wellStatus.findAll({
-      attributes: [
-        [sequelize.fn('max', sequelize.col('measuredAt')), 'measuredAt'],
-        'value'
-      ]
+    return wellStatus.findOne({
+      orderBy: 'measuredAt DESC',
+      limit: 1
     })
   },
 
