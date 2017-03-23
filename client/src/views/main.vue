@@ -8,6 +8,7 @@
       reload
     </button>
   </div>
+
 </view-container>
 </template>
 <script>
